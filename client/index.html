@@ -1,13 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang='pt-BR'>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>I am alive</h1>
-    <a href="/heart">Heart</a>
+<div>
+  <header class="header">
+    <h1 class="game-title">game</h1>
+
+    <div class="gold-hud">
+      <!-- simbolo ou icone -->
+      <div>
+        <div class="gold-hud-label">Gold:</div>
+        <div id="gold-display">500</div> <!-- alteravel em display -->
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="inventario">
+      <div class="inventario-header">
+        <span class="inventario-title">Inventário</span>
+        <span class="inventario-count" id="slot-count">0 / 20</span>
+      </div>
+
+      <div class="inventario-body">
+        <div id="inventario-grid"></div><!-- inventario de fato -->
+      </div>
+    </div>
+
+    <div class="loja">
+      <div class="loja-header">
+        <span class="loja-title">Loja</span>
+      </div>
+
+      <div class="loja-body">
+        <div id="loja-list"></div><!-- estoque -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/data/items.js"></script>
+<script src="js/ui/UI.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
