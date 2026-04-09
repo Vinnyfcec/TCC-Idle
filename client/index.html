@@ -3,32 +3,32 @@
 <head>
   <meta charset='utf-8'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Title</title>
+  <title>Mochileiro</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div>
   <header class="header">
-    <h1 class="game-title">game</h1>
+    <h1 class="game-title">Mochileiro</h1>
 
     <div class="gold-hud">
       <!-- simbolo ou icone -->
       <div>
         <div class="gold-hud-label">Gold:</div>
-        <div id="gold-display">500</div> <!-- alteravel em display -->
+        <div id="gold-display">1000</div> <!-- alteravel em display -->
       </div>
     </div>
   </header>
 
   <div class="main">
-    <div class="inventario">
-      <div class="inventario-header">
-        <span class="inventario-title">Inventário</span>
-        <span class="inventario-count" id="slot-count">0 / 20</span>
+    <div class="inventory">
+      <div class="inventory-header">
+        <span class="inventory-title">Inventário</span>
+        <span class="inventory-count" id="slot-count">0 / 20</span>
       </div>
 
-      <div class="inventario-body">
-        <div id="inventario-grid"></div><!-- inventario de fato -->
+      <div class="inventory-body">
+        <div id="inventory-grid"></div><!-- inventario de fato -->
       </div>
     </div>
 
@@ -40,12 +40,23 @@
       <div class="loja-body">
         <div id="loja-list"></div><!-- estoque -->
       </div>
+
+      <!-- obviamente temporario -->
+      <form id="addItem">
+        <input type="text" id="item-name" placeholder="nome" required>
+        <input type="number" id="item-price" placeholder="preço" required>
+        <input type="number" id="item-quantity" placeholder="quantidade" required>
+        <input type="checkbox" id="item-stackable"> Stackable
+        <button type="submit">Adicionar Item</button>
+      </form>
     </div>
 
   </div>
 </div>
 
 <script src="js/data/items.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/shop.js"></script>
 <script src="js/ui/UI.js"></script>
 <script src="js/main.js"></script>
 
