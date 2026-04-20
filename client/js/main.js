@@ -52,6 +52,17 @@ async function updateItemQuantity(itemId, newQuantity) {
   }
 }
 
+function atribuirNovoId() {
+  let id = 1;
+  while (Inventory.getItemById(id)) {
+    id++;
+  }
+  while (Shop.getItems().find(item => item.id === id)) {
+    id++;
+  }
+  return id;
+}
+
 async function getInventoryData() {
   try {
     return Inventory.getAllItems();

@@ -32,13 +32,18 @@ class InventoryUI {
   }
 
   static render() {
-    const items = Inventory.getAllItens();
+    const items = Inventory.getAllItems();
     containerInventory.innerHTML = '';
 
     items.forEach((item, index) => {
       const itemElement = InventoryUI.createItemElement(item, index);
       containerInventory.appendChild(itemElement);
     });
+
+    const slotCountElement = document.getElementById('slot-count');
+    if (slotCountElement) {
+      slotCountElement.textContent = `${Inventory.itemsLength()}/20`;
+    }
   }
 
   static createItemElement(item, index) {
@@ -125,14 +130,14 @@ class ShopUI {
 
         itemDiv.appendChild(info);
         itemDiv.onclick = () => {
-            Shop.comprar(index + 1);
+            Shop.buyByIndex(index);
         };
         return itemDiv;
     }
     
     static addItem(item) {
-        Shop.itens.push(item);
-        console.log(Shop.itens);
+        estoque.push(item);
+        console.log(estoque);
         ShopUI.render();
     }
 }
@@ -143,8 +148,9 @@ document.getElementById('addItem').addEventListener('submit', (e) => {
     const quantity = parseInt(document.getElementById('item-quantity').value);
     const price = parseInt(document.getElementById('item-price').value);
     const stackable = document.getElementById('item-stackable').checked;
+    const idNovoItem = atribuirNovoId();
     const novoItem = {
-        id: Shop.itens.length + 1,
+        id: idNovoItem,
         name,
         quantity,
         price,

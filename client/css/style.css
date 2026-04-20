@@ -11,21 +11,21 @@ body {
   padding: 20px;
 }
 
-.inventario-body {
+.inventory-body {
   padding: 15px;
 }
 
-#inventario-grid {
+#inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 10px;
 }
 
-.loja-body {
+.shop-body {
   padding: 15px;
 }
 
-#loja-list {
+#shop-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 10px;

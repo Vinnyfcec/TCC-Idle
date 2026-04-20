@@ -28,11 +28,11 @@ class Inventory {
     return false;
   }
   
-  static getAllitems() {
+  static getAllItems() {
     return items;
   }
 
-  static async loaditems(itemsArray) {
+  static async loadItems(itemsArray) {
     items = itemsArray.map(item => ({
       id: item.id,
       name: item.name,
@@ -45,5 +45,13 @@ class Inventory {
 
   static getItemById(itemId) {
     return items.find(i => i.id === itemId);
+  }
+
+  static itemsLength() {
+    let length = 0;
+    for (let i = 0; i < items.length; i++) {
+      length += items[i].quantity;
+    }
+    return length;
   }
 }

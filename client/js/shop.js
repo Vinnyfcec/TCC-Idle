@@ -5,17 +5,27 @@ class Shop {
 
     static buyByIndex(index) {
         //verificar se o indice é valido
-        if (index < 1 || index > Shop.itens.length) {
+        if (index < 0 || index > estoque.length) {
             alert('Item inválido!');
             return;
         }
         //verificar se tem dinheiro
-        if (!UI.checkGold(Shop.itens[index-1].price)) {
+        if (!UI.checkGold(estoque[index].price)) {
             alert('Dinheiro insuficiente!');
             return;
         }
-        UI.payGold(Shop.itens[index-1].price);
-        const item = Shop.itens[index-1];
+        //verificar se tem espaço no inventário
+        if (estoque[index].quantity + Inventory.itemsLength() > 20) {
+            alert('Sem espaço no Inventario');
+            return;
+        }
+        UI.payGold(estoque[index].price);
+        const item = estoque[index];
         addItemToInventory(item);
+    }
+
+    static addItem(item) {
+        estoque.push(item);
+        ShopUI.render();
     }
 }
