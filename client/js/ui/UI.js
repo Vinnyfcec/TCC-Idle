@@ -109,6 +109,7 @@ class InventoryUI {
         e.stopPropagation();
         if (inventoryLocked) return;
         useItem(item.id);
+        CombatUI.updatePlayerHp();
       };
       itemDiv.appendChild(useBtn);
     }
@@ -210,7 +211,7 @@ class CombatUI {
   }
 
   static updateEnemy(enemy) {
-    const maxHp = enemy.maxHp || enemy.hp;
+    const maxHp = enemy.maxHp;
     enemyBox.innerHTML = `
       <div class="enemy-name">${enemy.name} ${enemy.isBoss ? '(CHEFE)' : ''}</div>
       <div class="hp-bar">
