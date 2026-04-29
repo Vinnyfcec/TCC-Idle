@@ -2,6 +2,8 @@ async function loadInventory() {
   try {
     const items = inventarioInicial; //aq vai pegar na vdd no node
     await Inventory.loadItems(items);
+    // Inicializa HP baseado nos stats
+    Inventory.getPlayerMaxHp();
     InventoryUI.render();
   } catch (error) {
     console.error('Erro:', error);
@@ -52,6 +54,19 @@ async function updateItemQuantity(itemId, newQuantity) {
   }
 }
 
+async function useItem(itemId) {
+  try {
+    if (Inventory.useItem(itemId)) {
+      InventoryUI.render();
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Erro ao usar item:', error);
+    return false;
+  }
+}
+
 function atribuirNovoId() {
   let id = 1;
   while (Inventory.getItemById(id)) {
@@ -74,7 +89,19 @@ async function getInventoryData() {
 
 document.addEventListener('DOMContentLoaded', async () => {
   UI.updateGold();
-  InventoryUI.init('inventory-grid');
+  InventoryUI.init();
+  CombatUI.init();
   await loadInventory();
   ShopUI.render();
+
+  // Conectar eventos de combate à UI
+  CombatEvents.on('restStart', (data) => CombatUI.showRestTimer(data.timeLeft));
+  CombatEvents.on('combatStart', () => CombatUI.showCombat());
+  CombatEvents.on('enemyUpdate', (enemy) => CombatUI.updateEnemy(enemy));
+  CombatEvents.on('playerHpUpdate', () => CombatUI.updatePlayerHp());
+  CombatEvents.on('missionComplete', () => CombatUI.showMissionComplete());
+  CombatEvents.on('gameOver', () => CombatUI.showGameOver());
+  CombatEvents.on('enemy_appear', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
+  CombatEvents.on('boss_intro', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
+  CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
 });
