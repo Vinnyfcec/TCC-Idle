@@ -134,7 +134,7 @@ class ShopUI {
             const itemElement = ShopUI.createItemElement(item, index);
             container.appendChild(itemElement);
         });
-  }
+    }
 
     static createItemElement(item, index) {
         const itemDiv = document.createElement('div');
@@ -245,21 +245,31 @@ class CombatUI {
     }, 3000);
   }
 }
+
 document.getElementById('addItem').addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('item-name').value;
     const quantity = parseInt(document.getElementById('item-quantity').value);
     const price = parseInt(document.getElementById('item-price').value);
     const stackable = document.getElementById('item-stackable').checked;
+    const wearable = document.getElementById('item-wearable').checked;
+    const item_class = document.getElementById('item-class').value;
+    const type = document.getElementById('item-type').value;
+    const attribute = document.getElementById('item-attribute').value;
+    const att_value = parseInt(document.getElementById('item-att-value').value);
     const idNovoItem = atribuirNovoId();
     const novoItem = {
         id: idNovoItem,
         name,
         quantity,
         price,
-        stackable
+        stackable,
+        wearable,
+        item_class,
+        type,
+        attribute,
+        att_value
     };
 
     Shop.addItem(novoItem);
-    
 });

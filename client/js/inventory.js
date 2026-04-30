@@ -20,7 +20,7 @@ class Inventory {
       price: item.price || 0,
       stackable: item.stackable !== false,
       wearable: item.wearable === true,
-      class: item.class || null,
+      class: item.item_class || null,
       type: item.type || null,
       attribute: item.attribute || null,
       att_value: typeof item.att_value === 'number' ? item.att_value : 0,
