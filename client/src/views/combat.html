@@ -1,19 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='pt-BR'>
 <head>
-    <link rel="stylesheet" href="../css/style.css" type="text/css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combate</title>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combat</title>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
-    
-    <main class ="combat-screen">
-        
-    </main>
+<div>
+  <header class="header">
+    <h1 class="game-title">Mochileiro</h1>
 
+    <div class="gold-hud">
+      <!-- simbolo ou icone -->
+      <div>
+        <div class="gold-hud-label">Gold:</div>
+        <div id="gold-display">1000</div> <!-- alteravel em display -->
+      </div>
+    </div>
+  </header>
+
+    <div class="combat-section">
+      <div id="game-screen"></div>
+      <div id="player-box"></div>
+      <div id="enemy-box"></div>
+      <button id="start-mission-btn">Iniciar Missão</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/data/items.js"></script>
+<script src="../js/inventory.js"></script>
+<script src="../js/combat.js"></script>
+<script src="../js/ui/UImain.js"></script>
+<script src="../js/ui/UIcombat.js"></script>
+<script src="../js/main.js"></script>
 
 </body>
-
 </html>

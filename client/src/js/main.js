@@ -87,12 +87,10 @@ async function getInventoryData() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+if (document.title == "Combat") {
+  document.addEventListener('DOMContentLoaded', async () => {
   UI.updateGold();
-  InventoryUI.init();
   CombatUI.init();
-  await loadInventory();
-  ShopUI.render();
 
   // Conectar eventos de combate à UI
   CombatEvents.on('restStart', (data) => CombatUI.showRestTimer(data.timeLeft));
@@ -103,5 +101,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   CombatEvents.on('gameOver', () => CombatUI.showGameOver());
   CombatEvents.on('enemy_appear', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
   CombatEvents.on('boss_intro', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
-  CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
 });
+} else {
+  document.addEventListener('DOMContentLoaded', async () => {
+    UI.updateGold();
+    InventoryUI.init();
+    CombatUI.init();
+    await loadInventory();
+    ShopUI.render();
+
+    // Conectar eventos de combate à UI
+    CombatEvents.on('restStart', (data) => CombatUI.showRestTimer(data.timeLeft));
+    CombatEvents.on('combatStart', () => CombatUI.showCombat());
+    CombatEvents.on('enemyUpdate', (enemy) => CombatUI.updateEnemy(enemy));
+    CombatEvents.on('playerHpUpdate', () => CombatUI.updatePlayerHp());
+    CombatEvents.on('missionComplete', () => CombatUI.showMissionComplete());
+    CombatEvents.on('gameOver', () => CombatUI.showGameOver());
+    CombatEvents.on('enemy_appear', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
+    CombatEvents.on('boss_intro', (enemy) => CombatUI.updateEnemy({...enemy, maxHp: enemy.hp}));
+    CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
+  });
+}

@@ -77,6 +77,7 @@ function startRest(duration, onEnd) {
         timeLeft--;
 
         CombatEvents.emit('restStart', { timeLeft });
+        console.log("tentativa de emit em startRest");
 
         console.log(`Tempo restante: ${timeLeft}s`);
 
