@@ -1,8 +1,24 @@
+:root {
+  --fundo_floresta: url('../../assets/backgrounds/forest.png');
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
   overflow-x: hidden;
+}
+
+.combat-screen{
+  background-image: var(--fundo_floresta);
+}
+
+.combat-screen {
+    width: 100vw;
+    height: 100vh;
+
+    background-size: cover;
+    background-position: center;
 }
 
 .main {
