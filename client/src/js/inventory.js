@@ -3,6 +3,16 @@ let items = [];
 let playerHp = 100;
 let playerMaxHp = 100;
 
+const STORAGE_KEY_INVENTORY = 'game_inventory';
+
+function safeParse(json) {
+  try {
+    return JSON.parse(json);
+  } catch (e) {
+    return null;
+  }
+}
+
 class Inventory {
   static addItem(item) {
     const existingItem = items.find(i => i.id === item.id);
@@ -26,12 +36,14 @@ class Inventory {
       att_value: typeof item.att_value === 'number' ? item.att_value : 0,
       equipped: item.equipped === true
     });
+    Inventory.persist();
     return true;
   }
 
   static removeItemByIndex(index) {
     if (index >= 0 && index < items.length) {
       items.splice(index, 1);
+      Inventory.persist();
       return true;
     }
     return false;
@@ -55,6 +67,49 @@ class Inventory {
       att_value: typeof item.att_value === 'number' ? item.att_value : 0,
       equipped: item.equipped === true
     }));
+    return items;
+  }
+
+  static persist() {
+    try {
+      const data = { items, playerHp };
+      localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(data));
+    } catch (e) {
+      console.warn('Falha ao salvar inventário no localStorage', e);
+    }
+  }
+
+  static loadFromLocalStorage(defaultItems) {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_INVENTORY);
+      if (raw) {
+        const parsed = safeParse(raw);
+        if (parsed && Array.isArray(parsed.items)) {
+          items = parsed.items.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity || 1,
+            price: item.price || 0,
+            stackable: item.stackable !== false,
+            wearable: item.wearable === true,
+            class: item.class || null,
+            type: item.type || null,
+            attribute: item.attribute || null,
+            att_value: typeof item.att_value === 'number' ? item.att_value : 0,
+            equipped: item.equipped === true
+          }));
+          playerHp = typeof parsed.playerHp === 'number' ? parsed.playerHp : playerHp;
+          return items;
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao carregar inventário do localStorage', e);
+    }
+
+    if (defaultItems) {
+      Inventory.loadItems(defaultItems);
+    }
+    Inventory.persist();
     return items;
   }
 
@@ -112,6 +167,7 @@ class Inventory {
     if (Inventory.getEquippedCountByClass(itemClass) >= slots[itemClass]) return false;
 
     item.equipped = true;
+    Inventory.persist();
     return true;
   }
 
@@ -119,6 +175,7 @@ class Inventory {
     const item = Inventory.getItemById(itemId);
     if (!item || item.equipped !== true) return false;
     item.equipped = false;
+    Inventory.persist();
     return true;
   }
 
@@ -184,6 +241,7 @@ class Inventory {
         items = items.filter(i => i.id !== itemId);
       }
 
+      Inventory.persist();
       return true;
     }
 

@@ -9,5 +9,23 @@
 <body>
     <a href="index.html"> INDEX.HTML </a>
     <a href="combat.html"> COMBAT.HTML </a>
+    <button id="clear-storage-btn">Limpar localStorage</button>
+
+    <script>
+        (function(){
+            const GAME_KEYS = ['game_inventory','game_gold','game_shop'];
+            const btn = document.getElementById('clear-storage-btn');
+            if (!btn) return;
+            btn.addEventListener('click', () => {
+                if (!confirm('Apagar o localStorage?')) return;
+                try {
+                    GAME_KEYS.forEach(k => localStorage.removeItem(k));
+                    location.reload();
+                } catch (e) {
+                    console.error('Erro ao limpar localStorage', e);
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

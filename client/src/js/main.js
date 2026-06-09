@@ -1,8 +1,8 @@
 async function loadInventory() {
   try {
-    const items = inventarioInicial; //aq vai pegar na vdd no node
-    await Inventory.loadItems(items);
-    // Inicializa HP baseado nos stats
+    // tenta carregar do localStorage, se não der ele pega o inciial. futuramente será do mysql com node
+    await Inventory.loadFromLocalStorage(inventarioInicial);
+    // Inicializa HP baseado nos stats e atualiza UI
     Inventory.getPlayerMaxHp();
     InventoryUI.render();
   } catch (error) {
@@ -89,6 +89,7 @@ async function getInventoryData() {
 
 if (document.title == "Combat") {
   document.addEventListener('DOMContentLoaded', async () => {
+  UI.loadGold();
   UI.updateGold();
   CombatUI.init();
 
@@ -104,10 +105,12 @@ if (document.title == "Combat") {
 });
 } else {
   document.addEventListener('DOMContentLoaded', async () => {
+    UI.loadGold();
     UI.updateGold();
     InventoryUI.init();
     CombatUI.init();
     await loadInventory();
+    Shop.loadFromLocalStorage();
     ShopUI.render();
 
     // Conectar eventos de combate à UI
