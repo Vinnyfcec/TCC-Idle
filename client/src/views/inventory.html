@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventário</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="inventory">
+  <header class="header">
+    <h1 class="game-title">Mochileiro</h1>
+    <div class="gold-hud">
+      <div>
+        <div class="gold-hud-label">Ouro:</div>
+        <div id="gold-display">1000</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="inventory">
+      <div class="inventory-header">
+        <span class="inventory-title">Inventário</span>
+        <span class="inventory-count" id="slot-count">0 / 20</span>
+      </div>
+      <div class="inventory-body">
+        <div id="inventory-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

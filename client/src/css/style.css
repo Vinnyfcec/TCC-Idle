@@ -1,8 +1,23 @@
+
+:root {
+  --fundo-floresta: url('../../assets/backgrounds/forest.png');
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   overflow-x: hidden;
+}
+
+.combat-section {
+  width: 100%;
+  min-height: 260px;
+  background-image: var(--fundo-floresta);
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .main {
@@ -11,20 +26,12 @@ body {
   padding: 20px;
 }
 
-.inventory-body {
-  padding: 15px;
-}
-
-#inventory-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-}
-
+.inventory-body,
 .shop-body {
   padding: 15px;
 }
 
+#inventory-grid,
 #shop-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

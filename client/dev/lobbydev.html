@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ferramentas de desenvolvimento</title>
+</head>
+<body>
+  <h1>Ferramentas de desenvolvimento</h1>
+  <nav aria-label="Páginas do protótipo">
+    <a href="../src/views/index.html">Tela principal</a>
+    <a href="../src/views/combat.html">Combate</a>
+    <a href="../src/views/inventory.html">Inventário</a>
+    <a href="../src/views/shop.html">Loja</a>
+  </nav>
+
+  <button id="clear-storage-btn" type="button">Limpar dados locais</button>
+
+  <script>
+    (() => {
+      const gameKeys = ['game_inventory', 'game_gold', 'game_shop'];
+      const button = document.getElementById('clear-storage-btn');
+      if (!button) return;
+
+      button.addEventListener('click', () => {
+        if (!window.confirm('Apagar os dados locais?')) return;
+        gameKeys.forEach(key => window.localStorage.removeItem(key));
+        window.location.reload();
+      });
+    })();
+  </script>
+</body>
+</html>
