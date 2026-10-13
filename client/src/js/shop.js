@@ -24,7 +24,9 @@ class Shop {
     }
 
     const stockItem = estoque[index];
-    if (!stockItem || !Number.isSafeInteger(stockItem.quantity) || stockItem.quantity <= 0) {
+    const unlimitedStock = stockItem?.unlimitedStock === true;
+    if (!stockItem || (!unlimitedStock &&
+      (!Number.isSafeInteger(stockItem.quantity) || stockItem.quantity <= 0))) {
       notifyShop('Item sem estoque!');
       return false;
     }
@@ -57,9 +59,11 @@ class Shop {
       return false;
     }
 
-    stockItem.quantity -= 1;
-    if (stockItem.quantity <= 0) {
-      estoque.splice(index, 1);
+    if (!unlimitedStock) {
+      stockItem.quantity -= 1;
+      if (stockItem.quantity <= 0) {
+        estoque.splice(index, 1);
+      }
     }
 
     Shop.persist();
@@ -94,7 +98,18 @@ class Shop {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
-          const validItems = parsed.map(Shop.normalizeItem).filter(Boolean);
+          const validItems = parsed
+            .map(item => {
+              const normalized = Shop.normalizeItem(item);
+              const defaultItem = Array.isArray(defaultEstoque)
+                ? defaultEstoque.find(candidate => candidate.id === normalized?.id)
+                : null;
+              if (normalized && defaultItem?.unlimitedStock === true) {
+                normalized.unlimitedStock = true;
+              }
+              return normalized;
+            })
+            .filter(Boolean);
           estoque.length = 0;
           validItems.forEach(item => estoque.push(item));
           return estoque;

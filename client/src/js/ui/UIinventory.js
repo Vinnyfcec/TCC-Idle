@@ -84,7 +84,7 @@ class InventoryUI {
         e.stopPropagation();
         if (inventoryLocked) return;
         useItem(item.id);
-        CombatUI.updatePlayerHp();
+        if (typeof CombatUI !== 'undefined') CombatUI.updatePlayerHp();
       };
       itemDiv.appendChild(useBtn);
     }

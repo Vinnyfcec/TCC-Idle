@@ -65,38 +65,48 @@ function getCurrentPage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const page = getCurrentPage();
-  const isHome = page === 'home';
-  const isCombat = page === 'combat';
-  const isInventory = page === 'inventory';
-  const isShop = page === 'shop';
+const page = getCurrentPage();
+const isHome = page === 'home';
+const isCombat = page === 'combat';
+const isInventory = page === 'inventory';
+const isShop = page === 'shop';
 
-  if (isHome || isInventory) {
-    InventoryUI.init();
-  }
+if (isHome || isInventory) {
+InventoryUI.init();
+}
 
-  if (isHome || isCombat) {
-    CombatUI.init();
-  }
+if (isHome || isShop) {
+Shop.loadFromLocalStorage(estoque);
+ShopUI.render();
+}
 
-  if (isHome || isShop) {
-    Shop.loadFromLocalStorage();
-    ShopUI.render();
-  }
+UI.loadGold();
+UI.updateGold();
+await loadInventory();
 
-  UI.loadGold();
-  UI.updateGold();
-  await loadInventory();
 
-  if ((isHome || isCombat) && typeof CombatEvents !== 'undefined') {
-    CombatEvents.on('restStart', data => CombatUI.showRestTimer(data.timeLeft));
-    CombatEvents.on('combatStart', () => CombatUI.showCombat());
-    CombatEvents.on('enemyUpdate', enemy => CombatUI.updateEnemy(enemy));
-    CombatEvents.on('playerHpUpdate', () => CombatUI.updatePlayerHp());
-    CombatEvents.on('missionComplete', () => CombatUI.showMissionComplete());
-    CombatEvents.on('gameOver', () => CombatUI.showGameOver());
-    CombatEvents.on('enemy_appear', enemy => CombatUI.updateEnemy(enemy));
-    CombatEvents.on('boss_intro', enemy => CombatUI.updateEnemy(enemy));
-    CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
-  }
+if ((isHome || isCombat) && typeof CombatEvents !== 'undefined') {
+CombatEvents.on('restStart', data => CombatUI.showRestTimer(data.timeLeft));
+CombatEvents.on('combatStart', () => CombatUI.showCombat());
+CombatEvents.on('enemyUpdate', enemy => CombatUI.updateEnemy(enemy));
+CombatEvents.on('playerHpUpdate', () => CombatUI.updatePlayerHp());
+CombatEvents.on('missionComplete', () => CombatUI.showMissionComplete());
+CombatEvents.on('gameOver', () => CombatUI.showGameOver());
+CombatEvents.on('enemy_appear', enemy => CombatUI.updateEnemy(enemy));
+CombatEvents.on('boss_intro', enemy => CombatUI.updateEnemy(enemy));
+if (isHome) {
+  CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
+}
+}
+
+if (isHome || isCombat) {
+CombatUI.init();
+}
+
+const backToVillageButton = document.getElementById('back-to-village-btn');
+if (backToVillageButton) {
+backToVillageButton.addEventListener('click', () => {
+window.location.href = '../../dev/lobbydev.html';
+});
+}
 });
