@@ -18,7 +18,7 @@ const CombatEvents = {
 const missionEnemies = [
   { name: 'Goblin', hp: 30, attack: 6, defense: 2, isBoss: false },
   { name: 'Slime', hp: 25, attack: 4, defense: 1, isBoss: false },
-  { name: 'Orc do Pântano', hp: 80, attack: 12, defense: 5, isBoss: true }
+  { name: 'Orc vesgo gosta das sub-13', hp: 80, attack: 12, defense: 5, isBoss: true }
 ];
 
 function performAttack(enemy) {
@@ -119,6 +119,10 @@ function startMission(onEnd) {
       }
 
       currentEnemyIndex++;
+      if (currentEnemyIndex >= missionEnemies.length) {
+        finishMission(true);
+        return;
+      }
       startRest(5, fightNext);
     });
   }

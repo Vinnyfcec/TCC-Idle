@@ -3,31 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ferramentas de desenvolvimento</title>
+  <title>Vila - Mochileiro</title>
+  <link rel="stylesheet" href="../src/css/style.css">
 </head>
-<body>
-  <h1>Ferramentas de desenvolvimento</h1>
-  <nav aria-label="Páginas do protótipo">
-    <a href="../src/views/index.html">Tela principal</a>
-    <a href="../src/views/combat.html">Combate</a>
-    <a href="../src/views/inventory.html">Inventário</a>
-    <a href="../src/views/shop.html">Loja</a>
-  </nav>
+<body data-page="lobby">
+  <main class="resource-page">
+    <h1>Vila</h1>
+    <p class="resource-balance">
+      Madeira: <span id="wood-count">0</span>
+      <span aria-hidden="true">|</span>
+      Ouro: <span id="gold-display">1000</span>
+    </p>
 
-  <button id="clear-storage-btn" type="button">Limpar dados locais</button>
+    <nav class="resource-actions" aria-label="Mecânicas da vila">
+      <button id="start-mission-btn" type="button">Iniciar missão</button>
+      <button id="inventory-btn" type="button">Inventário</button>
+      <button id="shop-btn" type="button">Loja</button>
+      <button id="collect-wood-nav-btn" type="button">Coletar madeira</button>
+      <span class="resource-action">
+        <button id="rebuild-btn" type="button" disabled aria-describedby="rebuild-requirement">
+          Reconstruir cabana e carroça
+        </button>
+        <span id="rebuild-requirement" class="resource-tooltip" aria-live="polite">Madeira: 0/50</span>
+        <span id="house-obtained" hidden>Casa obtida</span>
+      </span>
+    </nav>
 
-  <script>
-    (() => {
-      const gameKeys = ['game_inventory', 'game_gold', 'game_shop'];
-      const button = document.getElementById('clear-storage-btn');
-      if (!button) return;
+    <button id="clear-storage-btn" type="button">Limpar dados locais</button>
+  </main>
 
-      button.addEventListener('click', () => {
-        if (!window.confirm('Apagar os dados locais?')) return;
-        gameKeys.forEach(key => window.localStorage.removeItem(key));
-        window.location.reload();
-      });
-    })();
-  </script>
+  <script src="../src/js/ui/UI.js"></script>
+  <script src="../src/js/resources.js"></script>
+  <script src="../src/js/ui/UIresources.js"></script>
 </body>
 </html>

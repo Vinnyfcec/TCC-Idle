@@ -21,7 +21,8 @@ let estoque = [
         class: 'consumable',
         type: 'heal',
         attribute: 'hp',
-        att_value: 50
+        att_value: 50,
+        unlimitedStock: true
     }
 ];
 

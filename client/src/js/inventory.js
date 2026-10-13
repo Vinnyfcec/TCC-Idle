@@ -39,7 +39,8 @@ function normalizeItem(item) {
     type: item.type ?? null,
     attribute: item.attribute ?? null,
     att_value: attValue,
-    equipped: item.equipped === true
+    equipped: item.equipped === true,
+    unlimitedStock: item.unlimitedStock === true
   };
 }
 

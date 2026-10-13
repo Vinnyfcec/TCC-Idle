@@ -82,7 +82,9 @@ class ShopUI {
     price.textContent = `${item.price} Ouro`;
 
     info.appendChild(name);
-    if (item.stackable) info.appendChild(quantity);
+    if (!item.unlimitedStock) {
+      info.appendChild(quantity);
+    }
     info.appendChild(price);
     itemDiv.appendChild(info);
 
