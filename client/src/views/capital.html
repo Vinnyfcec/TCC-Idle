@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capital — Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="capital" class="scene-page capital-page">
+  <header class="scene-hud">
+    <span class="scene-logo">Mochileiro</span>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <main class="capital-world">
+    <div class="capital-sky" aria-hidden="true"></div>
+    <div class="capital-roofline" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="capital-street" aria-hidden="true"></div>
+    <button id="capital-village-btn" class="scene-arrow scene-arrow-left" type="button" aria-label="Voltar para a vila">
+      <span aria-hidden="true">←</span>
+      <span>Voltar para a vila</span>
+    </button>
+    <section class="capital-mission-board" aria-labelledby="capital-mission-title">
+      <div class="capital-board-heading">
+        <p id="capital-mission-eyebrow" class="eyebrow">Guilda dos aventureiros · missão disponível</p>
+        <h1 id="capital-mission-title">Estrada do Pântano</h1>
+      </div>
+      <div class="capital-board-content">
+        <div class="capital-mission-copy">
+          <p id="capital-mission-reward" class="capital-mission-reward">Recompensa <strong>200 ouro</strong></p>
+          <button id="accept-mission-btn" type="button">Aceitar missão</button>
+        </div>
+      </div>
+    </section>
+    <button id="capital-shop-btn" class="scene-arrow scene-arrow-right" type="button" aria-label="Ir para a loja">
+      <span>Loja</span>
+      <span aria-hidden="true">→</span>
+    </button>
+  </main>
+
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

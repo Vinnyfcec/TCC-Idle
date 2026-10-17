@@ -3,23 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Coleta de madeira - Mochileiro</title>
+  <title>Floresta — Mochileiro</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body data-page="collection">
-  <main class="resource-page">
-    <h1>Coleta de recursos</h1>
-    <p class="resource-balance">
-      Madeira armazenada: <span id="wood-count">0</span>
-      <span aria-hidden="true">|</span>
-      Ouro: <span id="gold-display">1000</span>
-    </p>
-    <button id="collect-wood-btn" type="button">Coletar madeira</button>
-    <button id="back-to-lobby-btn" type="button">Voltar para a vila</button>
+<body data-page="collection" class="scene-page forest-page">
+  <header class="scene-hud">
+    <span class="scene-logo">Mochileiro</span>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+      <span>Madeira <strong id="wood-count">0</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <main class="forest-world">
+    <button id="collect-wood-btn" class="scene-hotspot forest-tree" type="button" aria-label="Coletar madeira">
+      <img class="collect-tree-art" src="../../assets/aaa/toco.png" alt="" aria-hidden="true">
+      <span class="hotspot-label">Coletar madeira</span>
+    </button>
+    <button id="return-to-village-btn" class="forest-road-exit" type="button">
+      Retornar para a vila
+    </button>
+
+    <div class="forest-caption">
+      <p class="eyebrow">Floresta</p>
+      <p id="wood-yield">Sem machado equipado: 1 madeira por coleta.</p>
+      <p id="demo-notice" class="demo-notice" role="status" hidden></p>
+    </div>
   </main>
 
-  <script src="../js/ui/UI.js"></script>
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
   <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
   <script src="../js/ui/UIresources.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@ body {
 .combat-section {
   width: 100%;
   min-height: 260px;
-  background-image: var(--fundo-floresta);
+  background-image: var(--fundo-combate);
   background-size: cover;
   background-position: center;
   padding: 20px;
@@ -20,6 +20,10 @@ body {
   display: grid;
   gap: 20px;
   padding: 20px;
+}
+
+body[data-page="inventory"] #back-to-village-btn {
+  justify-self: start;
 }
 
 .inventory-body,
@@ -185,4 +189,2735 @@ body[data-page="home"] .combat-hud {
 
 .resource-value {
   color: #555;
+}
+
+body[data-page="combat"] .combat-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 70px);
+  min-height: 400px;
+  box-sizing: border-box;
+
+  background-image: url("../../assets/backgrounds/floresta.png");
+  background-size: 100% 100%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+button {
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid #9d754b;
+  border-radius: 6px;
+  background: #6a452e;
+  color: #fff8e9;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #845936;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 18px clamp(18px, 5vw, 64px);
+  background: #29231f;
+  color: #fff8e9;
+}
+
+.game-header h1,
+.game-header p {
+  margin: 0;
+}
+
+.game-header h1 {
+  margin-top: 4px;
+}
+
+.eyebrow {
+  color: #bd9a6d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.world-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  justify-content: flex-end;
+}
+
+.world-hud span {
+  white-space: nowrap;
+}
+
+.demo-layout {
+  display: grid;
+  width: min(1080px, calc(100% - 32px));
+  gap: 18px;
+  margin: 24px auto;
+}
+
+.demo-card {
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid #d7c6ae;
+  border-radius: 10px;
+  background: #fffaf1;
+  box-shadow: 0 5px 18px rgb(44 33 24 / 8%);
+}
+
+.demo-card h2 {
+  margin: 6px 0 12px;
+}
+
+.demo-card p {
+  line-height: 1.55;
+}
+
+.demo-notice {
+  padding: 10px 12px;
+  border-left: 4px solid #a3733b;
+  background: #f2e7d5;
+}
+
+.save-note {
+  color: #625b52;
+  font-size: 0.9rem;
+}
+
+.house-card {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.7fr) 1.3fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.house-art {
+  display: grid;
+  min-height: 150px;
+  place-items: center;
+  border: 2px dashed #a98153;
+  border-radius: 8px;
+  background: #e8d8bb;
+  color: #64452c;
+  font-weight: 800;
+  text-align: center;
+}
+
+.house-copy {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+.house-copy p {
+  margin: 6px 0;
+}
+
+.house-copy [hidden],
+.ending-card[hidden] {
+  display: none;
+}
+
+.rescue-requirement {
+  display: block;
+  margin-top: 6px;
+  color: #8e302c;
+}
+
+.ending-card {
+  border-color: #a7834c;
+  background: #f5ead0;
+}
+
+.secondary-button {
+  background: #55504a;
+}
+
+.combat-header {
+  position: relative;
+  z-index: 2;
+}
+
+body[data-page="combat"] .combat-section {
+  height: calc(100vh - 82px);
+  min-height: 520px;
+  padding: 26px clamp(18px, 5vw, 64px);
+}
+
+.combat-message {
+  width: fit-content;
+  max-width: min(560px, 100%);
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: rgb(32 28 25 / 82%);
+  color: white;
+}
+
+.combat-message p {
+  margin: 4px 0;
+}
+
+.loot-message {
+  color: #f2d38c;
+}
+
+body[data-page="combat"] .combat-hud {
+  bottom: 24px;
+  left: clamp(16px, 4vw, 56px);
+  right: clamp(16px, 4vw, 56px);
+  gap: 16px;
+}
+
+body[data-page="combat"] #player-box,
+body[data-page="combat"] #enemy-box {
+  width: min(42%, 420px);
+  background: rgb(34 34 34 / 92%);
+}
+
+.combat-inventory {
+  position: fixed;
+  z-index: 12;
+  right: 4%;
+  bottom: 170px;
+  width: min(520px, 92%);
+  max-height: 42vh;
+  overflow: auto;
+  padding: 16px;
+  border: 2px solid #c6a574;
+  border-radius: 9px;
+  background: rgb(255 250 241 / 96%);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 35%);
+}
+
+.combat-inventory[hidden] {
+  display: none;
+}
+
+.combat-inventory h2,
+.combat-inventory p {
+  margin: 0 0 8px;
+}
+
+.combat-inventory #inventory-grid {
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+}
+
+.combat-controls {
+  position: absolute;
+  top: 110px;
+  right: clamp(18px, 5vw, 64px);
+  display: flex;
+  gap: 8px;
+}
+
+body[data-page="inventory"] .world-hud,
+body[data-page="shop"] .world-hud {
+  justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+  .game-header,
+  .house-card {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .world-hud {
+    justify-content: flex-start;
+  }
+
+  .house-art {
+    width: 100%;
+  }
+
+  body[data-page="combat"] .combat-hud {
+    position: absolute;
+    bottom: 18px;
+    flex-direction: column;
+  }
+
+  body[data-page="combat"] #player-box,
+  body[data-page="combat"] #enemy-box {
+    width: 100%;
+    min-height: 90px;
+  }
+
+  .combat-inventory {
+    right: 4%;
+    bottom: 230px;
+    max-height: 38vh;
+  }
+
+  .combat-controls {
+    top: 125px;
+    left: 18px;
+    right: 18px;
+    flex-wrap: wrap;
+  }
+}
+
+.scene-page {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #192422;
+}
+
+.scene-hud {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px clamp(14px, 4vw, 54px);
+  box-sizing: border-box;
+  color: #fff9e9;
+  background: linear-gradient(180deg, rgb(17 24 25 / 86%), rgb(17 24 25 / 0%));
+}
+
+.scene-logo {
+  color: #fff9e9;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-shadow: 0 2px 5px #202725;
+}
+
+.scene-hud .world-hud {
+  justify-content: center;
+  padding: 9px 15px;
+  border: 1px solid rgb(255 245 220 / 30%);
+  border-radius: 999px;
+  background: rgb(28 34 30 / 72%);
+  box-shadow: 0 5px 18px rgb(0 0 0 / 16%);
+}
+
+.hud-icon-button {
+  width: 48px;
+  min-height: 44px;
+  padding: 4px;
+  border: 1px solid rgb(255 245 220 / 56%);
+  border-radius: 50%;
+  background: rgb(28 34 30 / 72%);
+  font-size: 1.45rem;
+}
+
+.village-world,
+.capital-world {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 580px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.capital-world {
+  background: #39291f url("../../assets/backgrounds/quadro_de_miss%C3%B5es.png") center / cover no-repeat;
+}
+
+.capital-world > .capital-sky,
+.capital-world > .capital-roofline,
+.capital-world > .capital-street {
+  display: none;
+}
+
+.mission-select-list {
+  position: absolute;
+  top: 27%;
+  left: 50%;
+  display: grid;
+  width: min(820px, 62%);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  transform: translateX(-50%);
+}
+
+.mission-select-card {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(86px, .8fr) minmax(0, 2.1fr) minmax(92px, .9fr) 20px;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #493422;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgb(255 248 226 / 75%);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.mission-select-card[hidden] {
+  display: none;
+}
+
+.mission-select-card:hover,
+.mission-select-card:focus-visible {
+  border-color: rgb(103 70 39 / 26%);
+  outline: none;
+  background: rgb(255 244 216 / 28%);
+  transform: scale(1.02);
+}
+
+.mission-select-card.is-locked {
+  opacity: .68;
+}
+
+.mission-select-title {
+  font-family: Georgia, serif;
+  font-size: clamp(.95rem, 1.7vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mission-select-status,
+.mission-select-reward {
+  overflow: hidden;
+  font-size: clamp(.68rem, 1.05vw, .82rem);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mission-select-status {
+  color: #795936;
+}
+
+.mission-select-reward {
+  text-align: right;
+}
+
+.mission-select-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(103 70 39 / 34%);
+  border-radius: 50%;
+  background: rgb(255 243 212 / 60%);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .mission-select-list {
+    top: 25%;
+    width: 88%;
+    gap: 5px;
+  }
+
+  .mission-select-card {
+    grid-template-columns: minmax(46px, .75fr) minmax(0, 2.2fr) minmax(58px, .9fr) 16px;
+    gap: 4px;
+    padding: 7px 6px;
+  }
+
+  .mission-select-title {
+    font-size: clamp(.75rem, 3.1vw, .95rem);
+  }
+
+  .mission-select-status,
+  .mission-select-reward {
+    font-size: clamp(.58rem, 2.2vw, .72rem);
+  }
+
+  .mission-select-action {
+    width: 16px;
+    height: 16px;
+    font-size: .7rem;
+  }
+}
+
+.scene-sky,
+.capital-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -5;
+  background: linear-gradient(180deg, #88c6d0 0%, #c7dfc7 48%, #e1d29b 100%);
+}
+
+.village-mountains {
+  position: absolute;
+  inset: 20% -5% 26%;
+  z-index: -4;
+  opacity: 0.72;
+  background: #789b89;
+  clip-path: polygon(0 68%, 13% 20%, 22% 55%, 36% 7%, 49% 53%, 62% 12%, 77% 58%, 91% 18%, 100% 62%, 100% 100%, 0 100%);
+}
+
+.village-hill {
+  position: absolute;
+  z-index: -3;
+  left: -8%;
+  width: 116%;
+  border-radius: 50% 50% 0 0;
+}
+
+.village-hill-back {
+  top: 43%;
+  height: 75%;
+  background: linear-gradient(180deg, #769665, #4c7352);
+  transform: rotate(-3deg);
+}
+
+.village-hill-front {
+  top: 58%;
+  left: -14%;
+  width: 130%;
+  height: 66%;
+  background: linear-gradient(180deg, #658b56, #314f3a);
+  transform: rotate(3deg);
+}
+
+.village-path {
+  position: absolute;
+  z-index: -1;
+  top: 58%;
+  left: 36%;
+  width: 33%;
+  height: 50%;
+  background: #c5a46b;
+  clip-path: polygon(34% 0, 64% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 0 12px rgb(76 54 35 / 25%));
+}
+
+.scene-hotspot {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #fff8e5;
+  text-shadow: 0 2px 5px #17231c, 0 0 12px #17231c;
+  cursor: pointer;
+}
+
+.scene-hotspot:hover:not(:disabled),
+.scene-hotspot:focus-visible:not(:disabled) {
+  z-index: 8;
+  background: transparent;
+  outline: 2px solid rgb(255 239 187 / 82%);
+  outline-offset: 7px;
+}
+
+.scene-hotspot.forest-tree:hover:not(:disabled),
+body[data-page="lobby"] .scene-hotspot.merchant-house:hover:not(:disabled) {
+  outline: none;
+}
+
+.scene-hotspot:disabled {
+  opacity: 0.6;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.scene-hotspot[hidden] {
+  display: none;
+}
+
+.hotspot-label {
+  padding: 5px 10px;
+  border: 1px solid rgb(255 244 211 / 28%);
+  border-radius: 999px;
+  background: rgb(28 34 30 / 65%);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.scene-hotspot:hover .hotspot-label,
+.scene-hotspot:focus-visible .hotspot-label,
+.scene-hotspot.is-unlocked .hotspot-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.capital-gate {
+  top: 37%;
+  left: 8%;
+  width: 18%;
+}
+
+.gate-art {
+  position: relative;
+  display: block;
+  width: 130px;
+  height: 175px;
+  border: 11px solid #554334;
+  border-bottom: 0;
+  border-radius: 80px 80px 0 0;
+  background: linear-gradient(90deg, #947248 0 12%, #4e644b 12% 45%, #6d8057 45% 54%, #4e644b 54% 88%, #947248 88%);
+  box-shadow: 0 9px 16px rgb(25 36 23 / 36%);
+}
+
+.gate-art i,
+.forest-art i,
+.ruin-art i,
+.house-art-scene i,
+.shop-art-scene i,
+.board-art i {
+  position: absolute;
+  display: block;
+}
+
+.gate-art i:nth-child(1),
+.gate-art i:nth-child(2) {
+  top: 33%;
+  width: 26px;
+  height: 58px;
+  border-radius: 50% 50% 0 0;
+  background: #72945b;
+}
+
+.gate-art i:nth-child(1) { left: 23%; }
+.gate-art i:nth-child(2) { right: 23%; }
+.gate-art i:nth-child(3) {
+  right: 42%;
+  bottom: 0;
+  width: 16%;
+  height: 45%;
+  background: #49392d;
+}
+
+.forest-gate {
+  top: 37%;
+  right: 8%;
+  width: 20%;
+}
+
+.forest-art {
+  position: relative;
+  display: block;
+  width: 180px;
+  height: 190px;
+  background: linear-gradient(90deg, transparent, rgb(19 54 41 / 55%), transparent);
+}
+
+.forest-art i {
+  bottom: 0;
+  width: 75px;
+  height: 150px;
+  background: linear-gradient(90deg, #31583d, #477149 50%, #274c39);
+  clip-path: polygon(50% 0, 100% 68%, 71% 68%, 100% 100%, 0 100%, 30% 68%, 0 68%);
+}
+
+.forest-art i:nth-child(1) { left: 0; transform: scale(.8); transform-origin: bottom; }
+.forest-art i:nth-child(2) { left: 51px; }
+.forest-art i:nth-child(3) { right: 0; transform: scale(.9); transform-origin: bottom; }
+
+.merchant-landmark {
+  position: absolute;
+  top: 46%;
+  left: 39%;
+  width: 23%;
+  height: 31%;
+}
+
+.merchant-ruins,
+.merchant-house {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.ruin-art {
+  position: relative;
+  display: block;
+  width: 205px;
+  height: 130px;
+}
+
+.ruin-art i:nth-child(1) {
+  bottom: 4px;
+  left: 7px;
+  width: 190px;
+  height: 74px;
+  background: #7a6047;
+  clip-path: polygon(0 60%, 20% 33%, 32% 59%, 47% 10%, 63% 54%, 78% 26%, 100% 61%, 95% 100%, 6% 100%);
+  box-shadow: 0 7px 10px #263a28;
+}
+
+.ruin-art i:nth-child(2) {
+  left: 54px;
+  bottom: 55px;
+  width: 115px;
+  height: 45px;
+  border-top: 17px solid #6f5038;
+  transform: rotate(-12deg);
+}
+
+.ruin-art i:nth-child(3) {
+  right: 25px;
+  bottom: 8px;
+  width: 32px;
+  height: 64px;
+  background: #4e4033;
+  transform: rotate(12deg);
+}
+
+.house-art-scene {
+  position: relative;
+  display: block;
+  width: 196px;
+  height: 162px;
+  background: #bc8750;
+  clip-path: polygon(50% 0, 100% 39%, 91% 47%, 91% 100%, 9% 100%, 9% 47%, 0 39%);
+  filter: drop-shadow(0 8px 8px rgb(0 0 0 / 28%));
+}
+
+.house-art-scene i:first-child {
+  left: 41%;
+  bottom: 0;
+  width: 22%;
+  height: 43%;
+  background: #513c2c;
+}
+
+.house-art-scene i:last-child {
+  top: 50%;
+  left: 15%;
+  width: 22%;
+  height: 20%;
+  border: 4px solid #69462e;
+  background: #b9d3be;
+}
+
+.resource-tooltip {
+  top: 4%;
+  left: 50%;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: #fff6e4;
+  color: #8e302c;
+  font-weight: 800;
+  text-shadow: none;
+  transform: translate(-50%, -100%);
+}
+
+.merchant-ruins:hover .resource-tooltip,
+.merchant-ruins:focus-visible .resource-tooltip {
+  display: block;
+}
+
+.scene-interaction {
+  position: absolute;
+  z-index: 15;
+  right: clamp(16px, 5vw, 64px);
+  bottom: clamp(86px, 15vh, 150px);
+  width: min(390px, calc(100% - 36px));
+  box-sizing: border-box;
+  padding: 23px;
+  border: 1px solid rgb(255 242 211 / 42%);
+  border-radius: 14px;
+  background: rgb(30 37 31 / 93%);
+  color: #fff8e9;
+  box-shadow: 0 18px 55px rgb(0 0 0 / 35%);
+}
+
+.scene-interaction[hidden] {
+  display: none;
+}
+
+.scene-interaction [hidden] {
+  display: none;
+}
+
+.scene-interaction h1,
+.scene-interaction p {
+  margin: 7px 0 12px;
+}
+
+.scene-interaction .scene-close {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  min-height: 32px;
+  padding: 2px 10px;
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+}
+
+.village-caption,
+.capital-caption {
+  position: absolute;
+  bottom: 34px;
+  left: clamp(18px, 5vw, 70px);
+  max-width: 380px;
+  color: #fff8e9;
+  text-shadow: 0 2px 7px #1e3124;
+  pointer-events: none;
+}
+
+.village-caption p,
+.capital-caption p {
+  margin: 5px 0;
+}
+
+.scene-save-note {
+  position: absolute;
+  right: 86px;
+  bottom: 13px;
+  color: #fff8e9;
+  text-shadow: 0 1px 4px #17231c;
+}
+
+.capital-sky {
+  background: linear-gradient(180deg, #82b9c7, #e5d29f 78%);
+}
+
+.capital-roofline {
+  position: absolute;
+  inset: 21% 0 22%;
+  z-index: -3;
+  background: linear-gradient(180deg, transparent 45%, #695044 45% 100%);
+}
+
+.capital-roofline i {
+  position: absolute;
+  bottom: 44%;
+  width: 24%;
+  height: 52%;
+  background: #b98655;
+  clip-path: polygon(50% 0, 100% 37%, 100% 100%, 0 100%, 0 37%);
+  border-bottom: 12px solid #604738;
+}
+
+.capital-roofline i:nth-child(1) { left: -2%; height: 68%; }
+.capital-roofline i:nth-child(2) { left: 23%; width: 30%; height: 76%; background: #d0a069; }
+.capital-roofline i:nth-child(3) { right: 20%; height: 67%; }
+.capital-roofline i:nth-child(4) { right: -4%; width: 24%; height: 75%; background: #c39765; }
+
+.capital-street {
+  position: absolute;
+  z-index: -2;
+  left: -10%;
+  right: -10%;
+  bottom: -20%;
+  height: 53%;
+  background: linear-gradient(165deg, #a68b69 0 37%, #746452 38% 100%);
+  clip-path: polygon(0 18%, 100% 0, 100% 100%, 0 100%);
+}
+
+.mission-board {
+  top: 37%;
+  left: 32%;
+  width: 24%;
+}
+
+.board-art {
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 170px;
+  border: 12px solid #5b3f2b;
+  border-radius: 6px;
+  background: #9f7347;
+  box-shadow: 0 8px 14px rgb(0 0 0 / 30%);
+}
+
+.board-art::before {
+  position: absolute;
+  inset: 14px;
+  content: "";
+  background: repeating-linear-gradient(180deg, #e4d4ac 0 28px, #755740 29px 32px);
+}
+
+.board-art i {
+  z-index: 1;
+  width: 12px;
+  height: 15px;
+  border-radius: 50%;
+  background: #a33f32;
+}
+
+.board-art i:nth-child(1) { top: 34px; left: 38px; }
+.board-art i:nth-child(2) { top: 72px; right: 37px; background: #426a4c; }
+.board-art i:nth-child(3) { bottom: 28px; left: 50%; background: #b08a37; }
+
+.capital-shop {
+  top: 37%;
+  right: 18%;
+  width: 22%;
+}
+
+.shop-art-scene {
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 185px;
+  background: #b88654;
+  clip-path: polygon(50% 0, 100% 35%, 100% 100%, 0 100%, 0 35%);
+  filter: drop-shadow(0 8px 8px rgb(0 0 0 / 30%));
+}
+
+.shop-art-scene::before {
+  position: absolute;
+  top: 34%;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  content: "";
+  background: #823f32;
+}
+
+.shop-art-scene i:first-child {
+  bottom: 0;
+  left: 39%;
+  width: 25%;
+  height: 42%;
+  background: #513c2c;
+}
+
+.shop-art-scene i:last-child {
+  top: 60%;
+  left: 7%;
+  width: 24%;
+  height: 17%;
+  border: 4px solid #69462e;
+  background: #c7dcd2;
+}
+
+.capital-village-exit {
+  right: 5%;
+  bottom: 34%;
+  width: 20%;
+  padding: 8px;
+}
+
+.scene-arrow {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  display: flex;
+  min-height: 74px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 2px solid #d4b87f;
+  border-radius: 12px;
+  background: rgb(47 39 31 / 88%);
+  color: #fff4d8;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+  text-shadow: 0 1px 3px #241d17;
+  transform: translateY(-50%);
+}
+
+.scene-arrow:hover:not(:disabled) {
+  background: rgb(87 63 40 / 96%);
+}
+
+.scene-arrow span:first-child[aria-hidden="true"],
+.scene-arrow span:last-child[aria-hidden="true"] {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.scene-arrow-left {
+  left: clamp(12px, 2.4vw, 34px);
+}
+
+.scene-arrow-right {
+  right: clamp(12px, 2.4vw, 34px);
+}
+
+.capital-world > .scene-arrow {
+  top: 80%;
+}
+
+.capital-mission-board {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 12vh 17% 8vh;
+  background: none;
+}
+
+.capital-board-heading {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.capital-board-heading .eyebrow {
+  margin: 0 0 6px;
+  color: #7b5c38;
+}
+
+.capital-board-heading h1 {
+  margin: 0;
+  color: #493422;
+  font-family: Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2.65rem);
+  line-height: 1.08;
+}
+
+.capital-board-content {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 0;
+  padding-top: clamp(10px, 1.6vw, 18px);
+}
+
+.capital-mission-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #453422;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.capital-mission-copy p {
+  margin: 0;
+}
+
+.capital-mission-copy > p:first-child {
+  max-width: 620px;
+  font-size: clamp(.95rem, 1.5vw, 1.12rem);
+}
+
+.capital-mission-copy ul {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 6px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capital-mission-copy li {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  padding: 7px 9px;
+  border: 1px solid rgb(103 70 39 / 28%);
+  border-radius: 5px;
+  background: rgb(255 243 212 / 58%);
+  box-shadow: 0 2px 5px rgb(67 43 23 / 10%);
+  font-size: .76rem;
+}
+
+.capital-mission-reward {
+  display: flex;
+  width: min(100%, 440px);
+  justify-content: center;
+  gap: 12px;
+  padding: 6px 10px;
+  color: #493422;
+  font-size: .92rem;
+}
+
+.capital-mission-reward[hidden] {
+  display: none;
+}
+
+.capital-mission-copy button {
+  width: min(100%, 340px);
+  margin-top: 8px;
+  border-color: #50351f;
+  background: #69482e;
+  box-shadow: 0 3px 7px rgb(70 43 22 / 25%);
+}
+
+@media (max-width: 720px) {
+  .capital-mission-board {
+    padding: 14vh 12% 8vh;
+  }
+
+  .capital-board-heading .eyebrow { font-size: .58rem; }
+  .capital-board-heading h1 { font-size: clamp(1.3rem, 6vw, 1.75rem); }
+  .capital-board-content { padding-top: 7px; }
+  .capital-mission-copy { font-size: .82rem; }
+  .capital-mission-copy > p:first-child {
+    font-size: .88rem;
+    line-height: 1.25;
+  }
+
+  .capital-mission-copy ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    margin: 9px 0;
+  }
+
+  .capital-mission-copy li { min-height: 0; padding: 6px 5px; font-size: .7rem; }
+  .capital-mission-copy li:last-child { grid-column: 1 / -1; }
+  .capital-mission-reward { padding: 2px 0; font-size: .78rem; }
+  .capital-mission-copy button { min-height: 36px; margin-top: 4px; padding: 6px 10px; font-size: .84rem; }
+}
+
+.shop-scene-page {
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #967b57 0%, #56422e 72%, #2d2923 100%);
+}
+
+.shop-scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 580px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.shop-counter {
+  position: absolute;
+  top: 51%;
+  left: 50%;
+  width: min(980px, calc(100% - 280px), calc((100vh - 110px) * 1.83));
+  aspect-ratio: 1024 / 559;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+}
+
+.shop-counter-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.shop-counter-heading {
+  position: absolute;
+  top: 12%;
+  right: 14%;
+  left: 14%;
+  color: #fff0d3;
+  text-align: center;
+  text-shadow: 0 2px 3px #27180f;
+}
+
+.shop-counter-heading .eyebrow {
+  margin: 0;
+  color: #f0d5a6;
+  font-size: clamp(.68rem, 1.1vw, .9rem);
+}
+
+.shop-counter-heading h1 {
+  margin: 2px 0 0;
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2.5vw, 2rem);
+}
+
+.shop-counter .shop-body {
+  position: absolute;
+  top: 34%;
+  right: 17%;
+  bottom: 24%;
+  left: 17%;
+  max-height: none;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.shop-counter #shop-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+}
+
+.shop-counter .shop-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 11px;
+  border: 1px solid rgb(255 235 199 / 54%);
+  border-radius: 5px;
+  background: rgb(46 29 18 / 82%);
+  color: #fff3dc;
+}
+
+.shop-counter .shop-item:hover {
+  background: rgb(76 47 27 / 94%);
+  transform: translateY(-2px);
+}
+
+.shop-counter .shop-item .item-info {
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.shop-counter .shop-item .item-name {
+  font-weight: 800;
+}
+
+.shop-counter .shop-item .item-price {
+  color: #f3d08a;
+  font-weight: 800;
+}
+
+.shop-sell-button {
+  position: absolute;
+  z-index: 10;
+  top: 98px;
+  left: 50%;
+  min-height: 38px;
+  padding: 7px 16px;
+  border-color: #d4b87f;
+  background: rgb(47 39 31 / 92%);
+  color: #fff4d8;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 720px) {
+  .scene-arrow {
+    top: auto;
+    bottom: 18px;
+    min-height: 50px;
+    gap: 5px;
+    padding: 7px 9px;
+    font-size: .73rem;
+    transform: none;
+  }
+
+  .capital-world > .scene-arrow {
+    top: auto;
+    bottom: 18px;
+  }
+
+  .shop-counter {
+    top: 50%;
+    width: min(calc(100% - 8px), calc((100vh - 230px) * 1.83));
+    aspect-ratio: 1024 / 559;
+  }
+
+  .shop-counter-heading {
+    top: 12%;
+    right: 14%;
+    left: 14%;
+  }
+
+  .shop-counter-heading .eyebrow {
+    font-size: clamp(.52rem, 2.2vw, .68rem);
+  }
+
+  .shop-counter-heading h1 {
+    font-size: clamp(.92rem, 4vw, 1.25rem);
+  }
+
+  .shop-counter .shop-body {
+    top: 34%;
+    right: 17%;
+    bottom: 24%;
+    left: 17%;
+  }
+
+  .shop-counter #shop-list {
+    gap: 4px;
+  }
+
+  .shop-counter .shop-item {
+    gap: 6px;
+    padding: 4px 6px;
+    font-size: .72rem;
+  }
+
+  .shop-counter .shop-item .item-info {
+    gap: 5px;
+  }
+}
+
+.forest-world {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 580px;
+  overflow: hidden;
+  isolation: isolate;
+  background: url("../../assets/backgrounds/fundo-coleta.jpg") center / cover no-repeat;
+}
+
+.forest-tree {
+  left: 50%;
+  bottom: 15%;
+  width: auto;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.collect-tree-art {
+  display: block;
+  width: clamp(280px, 34vw, 440px);
+  height: auto;
+  filter: drop-shadow(0 8px 5px rgb(20 27 17 / 48%));
+}
+
+.forest-road-exit {
+  position: absolute;
+  z-index: 5;
+  right: clamp(16px, 4vw, 56px);
+  bottom: 24px;
+  padding: 12px 18px;
+  border: 2px solid #d1aa67;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #775135, #4a3427);
+  box-shadow: 0 5px 14px rgb(15 20 14 / 45%), inset 0 0 0 1px rgb(255 230 177 / 15%);
+  color: #fff1d1;
+  font: inherit;
+  font-weight: 700;
+  text-shadow: 0 1px 2px #2a1b12;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.forest-road-exit:hover,
+.forest-road-exit:focus-visible {
+  filter: brightness(1.16);
+  box-shadow: 0 7px 18px rgb(15 20 14 / 55%), 0 0 14px rgb(255 215 125 / 45%);
+  transform: translateY(-2px);
+}
+
+.forest-road-exit:focus-visible {
+  outline: 2px solid #fff1d1;
+  outline-offset: 3px;
+}
+
+.forest-caption {
+  position: absolute;
+  bottom: 35px;
+  left: clamp(18px, 5vw, 70px);
+  max-width: 340px;
+  color: #fff8e9;
+  text-shadow: 0 2px 7px #1e3124;
+  pointer-events: none;
+}
+
+.forest-caption p {
+  margin: 5px 0;
+}
+
+.forest-caption #wood-yield {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgb(28 34 30 / 65%);
+  font-size: .88rem;
+}
+
+@media (max-width: 720px) {
+  .scene-hud {
+    min-height: 112px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .scene-hud .world-hud {
+    order: 3;
+    width: 100%;
+    justify-content: space-around;
+    box-sizing: border-box;
+    gap: 6px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .village-world,
+  .capital-world {
+    min-height: 620px;
+  }
+
+  .capital-gate { left: 3%; transform: scale(.75); transform-origin: bottom; }
+  .forest-gate { right: 1%; transform: scale(.75); transform-origin: bottom; }
+  .merchant-landmark { left: 31%; width: 38%; }
+  .mission-board { left: 16%; width: 34%; transform: scale(.8); transform-origin: bottom; }
+  .capital-shop { right: 5%; width: 35%; transform: scale(.8); transform-origin: bottom; }
+  .forest-tree { bottom: 18%; transform: translateX(-50%); }
+  .collect-tree-art { width: clamp(250px, 72vw, 380px); }
+  .forest-road-exit { right: 12px; bottom: 16px; padding: 10px 13px; font-size: .82rem; }
+  .village-caption,
+  .capital-caption { bottom: 58px; max-width: 270px; font-size: .9rem; }
+  .scene-save-note { right: 72px; bottom: 12px; font-size: .75rem; }
+}
+
+.merchant-landmark > #house-obtained {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.combat-page {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #1c2825;
+}
+
+.combat-scene-hud {
+  position: absolute;
+}
+
+.combat-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 8px solid #342b23;
+  box-sizing: border-box;
+  background: #405a4a;
+}
+
+.combat-background,
+.combat-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.combat-background {
+  overflow: hidden;
+}
+
+.combat-background-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: max-content;
+  height: 100%;
+}
+
+.combat-background-track img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  flex: none;
+}
+
+.combat-atmosphere {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgb(17 25 27 / 14%), transparent 43%, rgb(17 27 20 / 13%)),
+    linear-gradient(0deg, rgb(24 36 27 / 65%), transparent 32%);
+  transform: none;
+}
+
+.combat-stage.phase-travel .combat-background-track,
+.combat-stage.phase-combat .combat-background-track,
+.combat-stage.phase-rest .combat-background-track {
+  animation: combat-scroll 42s linear infinite;
+}
+
+.combat-stage.phase-combat .combat-background-track,
+.combat-stage.phase-rest .combat-background-track {
+  animation-play-state: paused;
+}
+
+.combat-location {
+  position: absolute;
+  z-index: 3;
+  top: 86px;
+  left: 28px;
+  margin: 0;
+  color: #fff8e9;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 6px #19241c;
+}
+
+.combat-message {
+  position: absolute;
+  z-index: 5;
+  top: 94px;
+  left: 50%;
+  width: max-content;
+  max-width: min(560px, calc(100% - 32px));
+  box-sizing: border-box;
+  padding: 10px 18px;
+  border: 1px solid rgb(255 247 226 / 34%);
+  border-radius: 999px;
+  background: rgb(25 32 28 / 74%);
+  color: #fff9e9;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.combat-message p {
+  margin: 2px;
+}
+
+.loot-message {
+  color: #f2d38c;
+}
+
+.combatants {
+  position: absolute;
+  inset: 18% 7% 15%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.combatant {
+  position: absolute;
+  bottom: 0;
+  width: clamp(90px, 12vw, 165px);
+  height: clamp(170px, 31vh, 295px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  filter: drop-shadow(0 8px 5px rgb(0 0 0 / 45%));
+}
+
+.combat-stage.phase-combat .combatant,
+.combat-stage.phase-rest .hero-sprite {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.combat-stage.phase-travel .hero-sprite {
+  opacity: 1;
+  animation: hero-travel 790ms ease-in-out infinite alternate;
+}
+
+.combat-stage.phase-travel.enemy-entering .enemy-sprite {
+  animation: enemy-arrive 1.4s ease-out both;
+}
+
+.combat-stage.phase-combat .hero-sprite {
+  animation: hero-strike 1.29s ease-in-out infinite alternate;
+}
+
+.combat-stage.phase-combat .enemy-sprite {
+  animation: enemy-strike 1.59s ease-in-out infinite alternate;
+}
+
+.hero-sprite {
+  left: 15%;
+  color: #314c52;
+}
+
+.hero-sprite .sprite-head {
+  position: absolute;
+  top: 0;
+  left: 34%;
+  width: 33%;
+  aspect-ratio: 1;
+  border: 5px solid #63492f;
+  border-radius: 50%;
+  background: #d2a276;
+}
+
+.hero-sprite .sprite-body {
+  position: absolute;
+  top: 34%;
+  left: 19%;
+  width: 62%;
+  height: 55%;
+  border: 6px solid #513b2c;
+  border-radius: 33% 33% 12% 12%;
+  background: linear-gradient(90deg, #365964, #6b8990 50%, #314d56);
+}
+
+.hero-sprite .sprite-weapon {
+  position: absolute;
+  top: 33%;
+  right: 0;
+  width: 12px;
+  height: 70%;
+  border: 3px solid #503a27;
+  background: linear-gradient(90deg, #b8b8ad 0 50%, #70523a 50%);
+  transform: rotate(25deg);
+}
+
+.enemy-sprite {
+  right: 14%;
+  color: #663c38;
+  transform: translateY(20px) scaleX(-1);
+}
+
+.combat-stage.phase-combat .enemy-sprite {
+  transform: translateY(0) scaleX(-1);
+}
+
+.enemy-sprite::before {
+  position: absolute;
+  top: 22%;
+  left: -25%;
+  width: 150%;
+  content: attr(data-name);
+  color: #fff4d7;
+  font-size: clamp(.8rem, 1.7vw, 1.2rem);
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 2px 5px #17231c;
+  transform: scaleX(-1);
+}
+
+.enemy-sprite .sprite-head {
+  position: absolute;
+  top: 13%;
+  left: 29%;
+  width: 43%;
+  aspect-ratio: 1;
+  border: 5px solid #48352d;
+  border-radius: 42% 42% 50% 50%;
+  background: #8a7257;
+}
+
+.enemy-sprite .sprite-body {
+  position: absolute;
+  top: 49%;
+  left: 13%;
+  width: 74%;
+  height: 47%;
+  border: 6px solid #49352a;
+  border-radius: 38% 38% 18% 18%;
+  background: linear-gradient(90deg, #634b38, #927251 50%, #553e30);
+}
+
+.enemy-sprite .sprite-weapon {
+  position: absolute;
+  top: 40%;
+  left: -2%;
+  width: 24px;
+  height: 60%;
+  border: 3px solid #4b3725;
+  background: #8b7353;
+  transform: rotate(-30deg);
+}
+
+body[data-page="combat"] .combat-hud {
+  position: absolute;
+  z-index: 6;
+  top: 147px;
+  bottom: auto;
+  left: clamp(16px, 4vw, 55px);
+  right: clamp(16px, 4vw, 55px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  pointer-events: none;
+}
+
+body[data-page="combat"] #player-box,
+body[data-page="combat"] #enemy-box {
+  width: min(34%, 365px);
+  min-height: 85px;
+  box-sizing: border-box;
+  padding: 12px 15px;
+  border: 1px solid rgb(255 242 214 / 50%);
+  border-radius: 9px;
+  background: rgb(30 37 33 / 82%);
+  color: #fff9e9;
+  box-shadow: 0 7px 20px rgb(0 0 0 / 25%);
+}
+
+.combat-hud .player-name,
+.combat-hud .enemy-name {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.combat-hud .hp-bar {
+  height: 15px;
+  border: 1px solid rgb(255 255 255 / 60%);
+  border-radius: 999px;
+}
+
+.combat-hud .hp-text {
+  margin-top: 4px;
+  font-size: .78rem;
+}
+
+.combat-hud #enemy-box.inventory-board {
+  width: min(41%, 420px);
+  min-height: 0;
+  padding: 9px;
+  pointer-events: auto;
+}
+
+.combat-hud #enemy-box.inventory-board::before {
+  display: block;
+  margin: 0 0 7px;
+  content: "MOCHILA 5 x 5";
+  color: #f3dfb8;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.combat-hud #enemy-box.inventory-board .enemy,
+.combat-hud #enemy-box.inventory-board .enemy-name,
+.combat-hud #enemy-box.inventory-board .hp-bar,
+.combat-hud #enemy-box.inventory-board .hp-text {
+  display: none;
+}
+
+.combat-controls {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.combat-controls button {
+  pointer-events: auto;
+  border-color: #edce8b;
+  background: #714d32;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 30%);
+}
+
+#start-mission-btn:not(:disabled) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 190px;
+  transform: translate(-50%, -50%);
+}
+
+#return-village-btn {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+}
+
+.combat-inventory {
+  position: absolute;
+  z-index: -1;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+#inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.inventory-slot {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1;
+  border: 1px solid #b69869;
+  border-radius: 5px;
+  background: rgb(38 43 38 / 48%);
+}
+
+.inventory-slot.is-occupied {
+  background: rgb(109 87 59 / 80%);
+}
+
+.inventory-slot.is-equipped {
+  background: linear-gradient(145deg, #426b3e, #29452f);
+  border-color: #a8c879;
+}
+
+.inventory-slot .inventory-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  overflow: hidden;
+  padding: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #fff6df;
+}
+
+.inventory-slot .item-info {
+  min-width: 0;
+  padding-right: 13px;
+  gap: 2px;
+  font-size: clamp(.48rem, .8vw, .7rem);
+  line-height: 1.1;
+}
+
+.inventory-slot .item-name {
+  overflow-wrap: anywhere;
+}
+
+.inventory-slot .item-sale-value {
+  color: #f3d08a;
+  font-size: .9em;
+}
+
+.inventory-slot .item-remove-btn,
+.inventory-slot .item-equip-btn,
+.inventory-slot .item-use-btn,
+.inventory-slot .item-sell-btn {
+  min-height: 20px;
+  padding: 2px;
+  font-size: clamp(.43rem, .65vw, .58rem);
+}
+
+.inventory-slot .item-remove-btn {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 16px;
+  min-height: 16px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.inventory-slot .item-equip-btn,
+.inventory-slot .item-use-btn,
+.inventory-slot .item-sell-btn {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(100% - 6px);
+  white-space: nowrap;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.inventory-slot .inventory-item:hover .item-equip-btn,
+.inventory-slot .inventory-item:hover .item-use-btn,
+.inventory-slot .inventory-item:hover .item-sell-btn,
+.inventory-slot .inventory-item:focus-within .item-equip-btn,
+.inventory-slot .inventory-item:focus-within .item-use-btn,
+.inventory-slot .inventory-item:focus-within .item-sell-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .inventory-slot .item-equip-btn,
+  .inventory-slot .item-use-btn,
+  .inventory-slot .item-sell-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@keyframes combat-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes hero-travel {
+  from { transform: translateY(0) rotate(-2deg); }
+  to { transform: translateY(-7px) rotate(2deg); }
+}
+
+@keyframes hero-strike {
+  from { transform: translateY(0) translateX(0); }
+  to { transform: translateY(-3px) translateX(18px); }
+}
+
+@keyframes enemy-strike {
+  from { transform: translateY(0) scaleX(-1); }
+  to { transform: translateY(-4px) translateX(-12px) scaleX(-1); }
+}
+
+@keyframes enemy-arrive {
+  from {
+    right: -18%;
+    opacity: 0;
+    transform: translateY(0) scaleX(-1);
+  }
+  to {
+    right: calc(50% - clamp(90px, 12vw, 165px) - 8px);
+    opacity: 1;
+    transform: translateY(0) scaleX(-1);
+  }
+}
+
+.mission-board-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at center, rgb(237 216 173 / 88%), rgb(94 68 47 / 94%)),
+    #39291f;
+  color: #332519;
+}
+
+.mission-board-scene {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 110px 20px 30px;
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgb(70 48 31 / 38%) 8% 9%, transparent 9% 91%, rgb(70 48 31 / 38%) 91% 92%, transparent 92%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 2%) 0 2px, transparent 2px 7px);
+}
+
+.mission-paper {
+  position: relative;
+  width: min(690px, 100%);
+  box-sizing: border-box;
+  padding: clamp(24px, 6vw, 58px);
+  border: 10px solid #61452d;
+  background: linear-gradient(135deg, #f5e7c5, #dbc59b);
+  box-shadow: 0 22px 55px rgb(0 0 0 / 38%), inset 0 0 0 2px #9d7950;
+}
+
+.mission-paper::before {
+  position: absolute;
+  inset: 14px;
+  border: 1px dashed rgb(104 72 42 / 42%);
+  content: "";
+  pointer-events: none;
+}
+
+.mission-paper h1 {
+  margin: 10px 0 14px;
+  color: #513a26;
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+}
+
+.mission-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.mission-details span {
+  padding: 7px 10px;
+  border-radius: 3px;
+  background: rgb(109 76 46 / 12%);
+  font-size: .86rem;
+}
+
+body[data-page="inventory"] {
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #967b57 0%, #56422e 72%, #2d2923 100%);
+}
+
+body[data-page="inventory"] .header {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  min-height: 82px;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 14px clamp(16px, 4vw, 54px);
+  background: linear-gradient(180deg, rgb(24 28 25 / 88%), transparent);
+  color: #fff8e9;
+}
+
+body[data-page="inventory"] .gold-hud,
+body[data-page="inventory"] .gold-hud-label {
+  color: #fff8e9;
+}
+
+body[data-page="inventory"] .main {
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  justify-items: center;
+  align-content: center;
+  gap: 18px;
+  padding: 100px 20px 24px;
+}
+
+body[data-page="inventory"] #back-to-village-btn {
+  position: absolute;
+  z-index: 6;
+  top: 100px;
+  left: clamp(20px, 5vw, 72px);
+}
+
+body[data-page="inventory"] .inventory {
+  position: relative;
+  display: flex;
+  aspect-ratio: 992 / 1080;
+  flex-direction: column;
+  width: min(980px, calc(100% - 32px), calc((100vh - 72px) * .9185));
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url("../../assets/aaa/mochila.png") center / 100% 100% no-repeat;
+  box-shadow: none;
+}
+
+body[data-page="inventory"] .inventory-header {
+  position: absolute;
+  top: 7%;
+  right: 12%;
+  left: 12%;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-between;
+  padding: 0;
+  color: #f3dfb8;
+}
+
+body[data-page="inventory"] .inventory-body {
+  position: absolute;
+  inset: 13% 7% 25%;
+  display: grid;
+  min-height: 0;
+  place-items: center;
+  padding: 0;
+}
+
+body[data-page="inventory"] #inventory-grid {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+body[data-page="inventory"] .inventory-slot {
+  width: auto;
+  height: 100%;
+  box-sizing: border-box;
+  justify-self: center;
+  border-width: 2px;
+  border-style: dotted;
+  background: rgb(12 13 12 / 42%);
+}
+
+body[data-page="inventory"] .inventory-slot.is-occupied {
+  background: linear-gradient(145deg, #88704e, #534536);
+}
+
+body[data-page="inventory"] .inventory-slot.is-equipped {
+  background: linear-gradient(145deg, #426b3e, #29452f);
+  border-color: #a8c879;
+}
+
+body[data-page="inventory"] .inventory-slot .inventory-item {
+  color: #fff6df;
+}
+
+body[data-page="inventory"] .inventory-slot .item-info {
+  font-size: clamp(calc(.62rem - 3px), calc(1.5vw - 3px), calc(.88rem - 3px));
+}
+
+body[data-page="inventory"] .inventory-slot .item-remove-btn,
+body[data-page="inventory"] .inventory-slot .item-equip-btn,
+body[data-page="inventory"] .inventory-slot .item-use-btn,
+body[data-page="inventory"] .inventory-slot .item-sell-btn {
+  min-height: 23px;
+  font-size: clamp(calc(.55rem - 3px), calc(1.15vw - 3px), calc(.75rem - 3px));
+}
+
+@media (max-width: 720px) {
+  .combat-stage { min-height: 620px; border-width: 4px; }
+  .combat-location { top: 125px; left: 14px; font-size: .7rem; }
+  .combat-message { top: 154px; font-size: .88rem; }
+  .combatants { inset: 32% 3% 14%; }
+  #return-village-btn { right: 12px; bottom: 12px; }
+  .combat-controls button { min-height: 36px; padding: 7px 10px; font-size: .82rem; }
+  body[data-page="inventory"] .main { padding: 145px 10px 18px; }
+  body[data-page="inventory"] #back-to-village-btn { top: 104px; left: 12px; }
+  body[data-page="inventory"] .inventory { width: min(calc(100% - 4px), calc((100vh - 200px) * .9185)); }
+  body[data-page="inventory"] #inventory-grid { gap: 4px; }
+  body[data-page="inventory"] .inventory-slot .item-sell-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+body[data-page="lobby"] {
+  background: #17231e;
+}
+
+body[data-page="lobby"] .village-world {
+  height: 100vh;
+  min-height: 560px;
+  background: #27432f;
+}
+
+body[data-page="lobby"] .village-world::before {
+  position: absolute;
+  z-index: -1;
+  inset: -12%;
+  background:
+    linear-gradient(180deg, rgb(10 20 15 / 22%), transparent 22% 70%, rgb(14 25 12 / 15%)),
+    url("../../assets/backgrounds/background_vila.jpg") center / cover no-repeat;
+  content: "";
+  pointer-events: none;
+}
+
+body[data-page="lobby"] .village-forest-sky,
+body[data-page="lobby"] .village-forest-back,
+body[data-page="lobby"] .village-pines,
+body[data-page="lobby"] .village-forest-front,
+body[data-page="lobby"] .village-path {
+  display: none;
+}
+
+body[data-page="lobby"] .village-forest-sky {
+  background:
+    radial-gradient(ellipse at 51% 24%, rgb(250 224 153 / 30%), transparent 37%),
+    linear-gradient(180deg, #789c91 0%, #a4b89b 41%, #788c61 69%, #38543a 100%);
+}
+
+body[data-page="lobby"] .village-forest-back,
+body[data-page="lobby"] .village-forest-front {
+  position: absolute;
+  right: -5%;
+  left: -5%;
+  pointer-events: none;
+}
+
+body[data-page="lobby"] .village-forest-back {
+  top: 13%;
+  bottom: 26%;
+  opacity: .72;
+  background:
+    linear-gradient(180deg, transparent 0%, rgb(34 63 43 / 16%) 52%, rgb(35 63 43 / 58%) 100%),
+    linear-gradient(90deg, rgb(39 73 49 / 24%), transparent 18% 82%, rgb(39 73 49 / 24%));
+}
+
+body[data-page="lobby"] .village-forest-front {
+  bottom: 0;
+  height: 28%;
+  background:
+    linear-gradient(90deg, transparent 0 7%, rgb(31 60 40 / 62%) 7.2% 8%, transparent 8.2% 28%, rgb(31 60 40 / 62%) 28.2% 29%, transparent 29.2% 49%, rgb(31 60 40 / 62%) 49.2% 50%, transparent 50.2% 70%, rgb(31 60 40 / 62%) 70.2% 71%, transparent 71.2% 92%, rgb(31 60 40 / 62%) 92.2% 93%, transparent 93.2%),
+    linear-gradient(180deg, transparent, #233f2e);
+}
+
+body[data-page="lobby"] .village-pines {
+  position: absolute;
+  z-index: 1;
+  top: 24%;
+  right: 3%;
+  bottom: 27%;
+  left: 3%;
+  pointer-events: none;
+}
+
+body[data-page="lobby"] .village-pines i {
+  position: absolute;
+  bottom: 0;
+  width: clamp(78px, 10vw, 142px);
+  height: 78%;
+  background: linear-gradient(90deg, #294a34, #3d6541 48%, #274731);
+  clip-path: polygon(50% 0, 63% 22%, 57% 22%, 77% 44%, 68% 44%, 100% 75%, 63% 75%, 63% 100%, 37% 100%, 37% 75%, 0 75%, 32% 44%, 23% 44%, 43% 22%, 37% 22%);
+  filter: drop-shadow(0 6px 5px rgb(17 33 22 / 25%));
+  opacity: .76;
+}
+
+body[data-page="lobby"] .village-pines i:nth-child(1) { left: 2%; height: 76%; }
+body[data-page="lobby"] .village-pines i:nth-child(2) { left: 18%; height: 92%; opacity: .88; }
+body[data-page="lobby"] .village-pines i:nth-child(3) { left: 35%; height: 81%; }
+body[data-page="lobby"] .village-pines i:nth-child(4) { left: 51%; height: 100%; opacity: .92; }
+body[data-page="lobby"] .village-pines i:nth-child(5) { left: 67%; height: 84%; }
+body[data-page="lobby"] .village-pines i:nth-child(6) { left: 82%; height: 96%; opacity: .88; }
+body[data-page="lobby"] .village-pines i:nth-child(7) { right: 0; height: 73%; }
+
+body[data-page="lobby"] .village-path {
+  top: 70%;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background:
+    linear-gradient(180deg, #796b48 0%, #5f573e 58%, #454533 100%);
+  clip-path: polygon(34% 0, 66% 0, 100% 100%, 0 100%);
+}
+
+body[data-page="lobby"] .village-settlements {
+  position: absolute;
+  z-index: 3;
+  right: 6%;
+  bottom: 22%;
+  left: 4%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.4fr);
+  height: 36%;
+  align-items: stretch;
+  pointer-events: none;
+}
+
+body[data-page="lobby"] .village-ruin {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+body[data-page="lobby"] .ruined-village-sprite {
+  display: block;
+  width: clamp(140px, 16vw, 210px);
+  max-width: none;
+  height: auto;
+  filter: drop-shadow(0 4px 3px rgb(13 21 12 / 42%));
+}
+
+body[data-page="lobby"] .village-ruin-1 .ruined-village-sprite { transform: scale(.68); transform-origin: center bottom; }
+body[data-page="lobby"] .village-ruin-2 .ruined-village-sprite { transform: scale(.64) scaleX(-1); transform-origin: center bottom; }
+body[data-page="lobby"] .village-ruin-3 .ruined-village-sprite { transform: scale(.74); transform-origin: center bottom; }
+body[data-page="lobby"] .village-ruin-4 .ruined-village-sprite { transform: scale(.66) scaleX(-1); transform-origin: center bottom; }
+body[data-page="lobby"] .village-ruin-5 .ruined-village-sprite { transform: scale(.7); transform-origin: center bottom; }
+
+body[data-page="lobby"] .village-merchant-site {
+  position: relative;
+  top: auto;
+  left: auto;
+  min-width: 0;
+  width: auto;
+  height: 100%;
+  pointer-events: auto;
+}
+
+body[data-page="lobby"] .village-pines {
+  top: 25%;
+  bottom: 31%;
+  right: 1%;
+  left: 1%;
+}
+
+body[data-page="lobby"] .village-pines i {
+  width: clamp(50px, 10vw, 76px);
+}
+
+body[data-page="lobby"] .merchant-ruins,
+body[data-page="lobby"] .merchant-house {
+  width: 100%;
+  height: 100%;
+  align-content: end;
+}
+
+body[data-page="lobby"] .merchant-ruins .ruin-art {
+  position: absolute;
+  bottom: -4%;
+  left: 50%;
+  width: clamp(150px, 19vw, 250px);
+  height: auto;
+  transform: translateX(-50%) scale(1.08);
+  filter: drop-shadow(0 5px 4px rgb(13 21 12 / 55%));
+}
+
+body[data-page="lobby"] .merchant-ruins:disabled {
+  opacity: 1;
+}
+
+body[data-page="lobby"] .merchant-house .house-art-scene {
+  position: absolute;
+  bottom: -24%;
+  left: 50%;
+  width: clamp(440px, 43vw, 476px);
+  height: auto;
+  background: none;
+  clip-path: none;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 5px 5px rgb(13 21 12 / 50%));
+}
+
+body[data-page="lobby"] .merchant-ruins .hotspot-label,
+body[data-page="lobby"] .merchant-house .hotspot-label {
+  margin-bottom: 8px;
+}
+
+body[data-page="lobby"] .scene-save-note {
+  display: none;
+}
+
+body[data-page="lobby"] .village-exit {
+  position: absolute;
+  z-index: 12;
+  top: 76%;
+  display: grid;
+  width: 82px;
+  height: 82px;
+  justify-items: center;
+  align-content: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff4d0;
+  cursor: pointer;
+  isolation: isolate;
+  transform: translateY(-50%);
+}
+
+body[data-page="lobby"] .village-exit-left { left: 18px; }
+body[data-page="lobby"] .village-exit-right { right: 18px; }
+body[data-page="lobby"] .village-exit-left .village-exit-label { left: 0; }
+body[data-page="lobby"] .village-exit-right .village-exit-label { right: 0; }
+
+body[data-page="lobby"] .village-exit-arrow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 74px;
+  height: 62px;
+  place-items: center;
+  color: #ffe8a6;
+  font-family: Arial, sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  -webkit-text-stroke: 5px currentColor;
+  text-shadow: 0 2px 5px rgb(19 28 18 / 90%), 0 0 8px rgb(255 210 92 / 35%);
+  transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+}
+
+body[data-page="lobby"] .village-exit-label {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% + 25px);
+  padding: 5px 9px;
+  border: 1px solid rgb(255 224 151 / 58%);
+  border-radius: 999px;
+  background: rgb(26 35 28 / 88%);
+  color: #fff1c7;
+  font-size: .78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+body[data-page="lobby"] .village-exit::before,
+body[data-page="lobby"] .village-exit::after {
+  position: absolute;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+body[data-page="lobby"] .village-exit::before {
+  inset: 14px -8px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgb(255 204 75 / 55%), transparent 72%);
+  filter: blur(10px);
+}
+
+body[data-page="lobby"] .village-exit::after {
+  top: 5px;
+  left: 50%;
+  width: 100px;
+  height: 52px;
+  background:
+    radial-gradient(circle, #fff2ae 0 1px, transparent 2px) 8px 9px / 27px 21px,
+    radial-gradient(circle, #ffd65c 0 1.5px, transparent 2.5px) 1px 3px / 35px 25px,
+    radial-gradient(circle, #ffe69a 0 1px, transparent 2px) 18px 11px / 31px 19px;
+  transform: translateX(-50%);
+}
+
+body[data-page="lobby"] .village-exit:not(:disabled):hover::before,
+body[data-page="lobby"] .village-exit:not(:disabled):hover::after,
+body[data-page="lobby"] .village-exit:not(:disabled):focus-visible::before,
+body[data-page="lobby"] .village-exit:not(:disabled):focus-visible::after {
+  opacity: 1;
+  animation: village-gold-particles 1.4s ease-in-out infinite alternate;
+}
+
+body[data-page="lobby"] .village-exit:not(:disabled):hover .village-exit-arrow,
+body[data-page="lobby"] .village-exit:not(:disabled):focus-visible .village-exit-arrow {
+  color: #fff7d9;
+  text-shadow: 0 2px 5px rgb(19 28 18 / 90%), 0 0 12px #ffcf61, 0 0 30px rgb(255 205 86 / 90%);
+  transform: scale(1.08);
+}
+
+body[data-page="lobby"] .village-exit:not(:disabled):hover .village-exit-label,
+body[data-page="lobby"] .village-exit:not(:disabled):focus-visible .village-exit-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body[data-page="lobby"] .village-exit:focus-visible {
+  outline: 2px solid #ffe39a;
+  outline-offset: 4px;
+}
+
+body[data-page="lobby"] .village-exit:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+body[data-page="lobby"] .village-exit:disabled .village-exit-label {
+  opacity: 0;
+}
+
+@keyframes village-gold-particles {
+  from { transform: translate(-50%, 2px); }
+  to { transform: translate(-50%, -6px); }
+}
+
+@media (max-width: 720px) {
+  body[data-page="lobby"] .village-settlements {
+    right: 4%;
+    bottom: 22%;
+    left: 4%;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.4fr);
+    height: 32%;
+  }
+
+  body[data-page="lobby"] .village-ruin {
+    width: auto;
+  }
+
+  body[data-page="lobby"] .merchant-house .house-art-scene {
+    bottom: -19%;
+  }
+
+  body[data-page="lobby"] .village-merchant-site {
+    width: auto;
+  }
+
+  body[data-page="lobby"] .ruined-village-sprite {
+    width: clamp(44px, 12vw, 58px);
+  }
+
+  body[data-page="lobby"] .merchant-ruins .ruin-art {
+    width: clamp(105px, 30vw, 160px);
+  }
+
+  body[data-page="lobby"] .merchant-house .house-art-scene {
+    width: clamp(195px, 50vw, 230px);
+  }
+
+  body[data-page="lobby"] .village-exit {
+    top: 82%;
+    width: 62px;
+    height: 66px;
+  }
+
+  body[data-page="lobby"] .village-exit-left { left: 5px; }
+  body[data-page="lobby"] .village-exit-right { right: 5px; }
+
+  body[data-page="lobby"] .village-exit-arrow {
+    width: 58px;
+    height: 52px;
+    font-size: 3.2rem;
+  }
+
+  body[data-page="lobby"] .village-exit-label {
+    font-size: .64rem;
+  }
+}
+
+body[data-page="combat"] {
+  min-height: 100vh;
+  overflow: hidden;
+  --combat-footer-height: 0px;
+  --combat-rest-height: min(430px, 64vh);
+}
+
+body[data-page="combat"] .combat-stage {
+  height: calc(100vh - var(--combat-footer-height));
+  min-height: 0;
+  border-bottom: 0;
+}
+
+body[data-page="combat"] #combat-footer[hidden] {
+  display: none;
+}
+
+body[data-page="combat"] .combat-hud {
+  position: fixed;
+  z-index: 10;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: var(--combat-footer-height);
+  box-sizing: border-box;
+  justify-content: stretch;
+  align-items: stretch;
+  gap: 0;
+  padding: 8px clamp(10px, 3vw, 32px);
+  border-top: 2px solid #8d7552;
+  background: #202622;
+  pointer-events: auto;
+}
+
+body[data-page="combat"] .combat-hud.has-single-panel {
+  justify-content: flex-start;
+}
+
+body[data-page="combat"] #player-box,
+body[data-page="combat"] #enemy-box {
+  display: block;
+  width: 50%;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 12px clamp(10px, 2vw, 24px);
+  border: 1px solid rgb(255 242 214 / 50%);
+  border-radius: 0;
+  background: #303832;
+  color: #fff9e9;
+  box-shadow: none;
+}
+
+body[data-page="combat"] #player-box[style*="display: none"],
+body[data-page="combat"] #enemy-box[style*="display: none"] {
+  display: none;
+}
+
+body[data-page="combat"] .combat-hud.has-single-panel #player-box {
+  width: 100%;
+}
+
+body[data-page="combat"] .combat-hud .player-name,
+body[data-page="combat"] .combat-hud .enemy-name {
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+body[data-page="combat"] .combat-hud .hp-bar {
+  height: 18px;
+  border: 1px solid rgb(255 255 255 / 60%);
+  border-radius: 999px;
+}
+
+body[data-page="combat"] .combat-hud .hp-text {
+  margin-top: 4px;
+  font-size: .78rem;
+}
+
+body[data-page="combat"] .combat-hud .player {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+body[data-page="combat"] .rest-stat-grid {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 9px;
+}
+
+body[data-page="combat"] .rest-stat-item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid rgb(243 223 184 / 38%);
+  border-radius: 6px;
+  background: rgb(17 23 19 / 38%);
+}
+
+body[data-page="combat"] .rest-stat-label {
+  color: #d6c6a7;
+  font-size: .86rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+body[data-page="combat"] .rest-stat-value {
+  color: #fff3d7;
+  font-size: clamp(1.15rem, 2.1vw, 1.65rem);
+}
+
+body[data-page="combat"] .combat-hud .player .hp-fill {
+  background: #32c85a;
+}
+
+body[data-page="combat"] .combat-hud .enemy .hp-fill {
+  background: #d93636;
+}
+
+body[data-page="combat"] .combat-hud.is-resting {
+  height: var(--combat-footer-height);
+}
+
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board {
+  position: relative;
+  display: flex;
+  width: min(50%, calc(var(--combat-footer-height) * .9185));
+  aspect-ratio: 992 / 1080;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url("../../assets/aaa/mochila.png") center / 100% 100% no-repeat;
+  box-shadow: none;
+  pointer-events: auto;
+}
+
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board::before {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  left: 12%;
+  display: block;
+  margin: 0;
+  content: "MOCHILA 5 x 5";
+  color: #f3dfb8;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-align: center;
+}
+
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board .enemy,
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board .enemy-name,
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board .hp-bar,
+body[data-page="combat"] .combat-hud #enemy-box.inventory-board .hp-text {
+  display: none;
+}
+
+body[data-page="combat"] #enemy-box.inventory-board #inventory-grid {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  width: min(76%, calc(var(--combat-footer-height) * .62));
+  aspect-ratio: 1;
+  min-height: 0;
+  transform: translateX(-50%);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+body[data-page="combat"] #enemy-box.inventory-board .inventory-slot {
+  min-height: 0;
+  aspect-ratio: 1;
+  border-style: dotted;
+}
+
+body[data-page="combat"] .combatants {
+  bottom: 23%;
+}
+
+body[data-page="combat"] .combat-stage.phase-combat .hero-sprite,
+body[data-page="combat"] .combat-stage.phase-rest .hero-sprite {
+  left: calc(50% - clamp(90px, 12vw, 165px) - 8px);
+}
+
+body[data-page="combat"] .combat-stage.phase-combat .enemy-sprite,
+body[data-page="combat"] .combat-stage.phase-rest .enemy-sprite {
+  right: calc(50% - clamp(90px, 12vw, 165px) - 8px);
+}
+
+body[data-page="combat"] .combatant {
+  transition: opacity 220ms ease, transform 220ms ease, left 420ms ease, right 420ms ease;
+}
+
+@media (max-width: 720px) {
+  body[data-page="combat"] {
+    --combat-rest-height: min(680px, 80vh);
+  }
+
+  body[data-page="combat"] .combat-stage {
+    height: calc(100vh - var(--combat-footer-height));
+    min-height: 0;
+    border-width: 4px;
+    border-bottom: 0;
+  }
+
+  body[data-page="combat"] .combat-hud {
+    padding: 6px;
+  }
+
+  body[data-page="combat"] #player-box,
+  body[data-page="combat"] #enemy-box {
+    padding: 8px;
+  }
+
+  body[data-page="combat"] .combat-hud #enemy-box.inventory-board {
+    padding: 0;
+  }
+
+  body[data-page="combat"] .combat-hud.is-resting {
+    flex-direction: column;
+  }
+
+  body[data-page="combat"] .combat-hud.is-resting #player-box {
+    width: 100%;
+    flex: 0 0 34%;
+  }
+
+  body[data-page="combat"] .combat-hud.is-resting #enemy-box.inventory-board {
+    width: min(100%, calc(var(--combat-footer-height) * .9185));
+    min-height: 0;
+    flex: 1 1 auto;
+    align-self: center;
+  }
+
+  body[data-page="combat"] #enemy-box.inventory-board #inventory-grid {
+    top: 14%;
+    width: min(76%, calc(var(--combat-footer-height) * .42));
+  }
+
+  body[data-page="combat"] .combat-hud #enemy-box.inventory-board::before {
+    top: 7%;
+  }
+
+  body[data-page="combat"] .combatants {
+    inset: 32% 3% 23%;
+  }
 }

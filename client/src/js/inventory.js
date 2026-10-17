@@ -4,7 +4,7 @@ let playerHp = 100;
 let playerMaxHp = 100;
 
 const STORAGE_KEY_INVENTORY = 'game_inventory';
-const INVENTORY_CAPACITY = 20;
+const INVENTORY_CAPACITY = 25;
 
 function safeParse(json) {
   try {
@@ -19,26 +19,48 @@ function normalizeItem(item) {
     return null;
   }
 
-  const name = typeof item.name === 'string' ? item.name.trim() : '';
+  const catalogItem = typeof itemDatabase === 'object'
+    ? Object.values(itemDatabase).find(candidate => candidate.name === item.name) ||
+      (Number.isSafeInteger(Number(item.catalogId))
+        ? itemDatabase[Number(item.catalogId)]
+        : null)
+    : null;
+  const catalogId = Number(item.catalogId ?? catalogItem?.id ?? item.id);
+  const source = catalogItem || item;
+  const name = typeof source.name === 'string' ? source.name.trim() : '';
   const quantity = Number(item.quantity ?? 1);
-  const price = Number(item.price ?? 0);
-  const attValue = Number(item.att_value ?? 0);
+  const price = Number(source.price ?? item.price ?? 0);
+  const attValue = Number(source.att_value ?? item.att_value ?? 0);
 
   if (!name || !Number.isSafeInteger(quantity) || quantity <= 0) return null;
   if (!Number.isSafeInteger(price) || price < 0) return null;
   if (!Number.isFinite(attValue)) return null;
 
+  const rawBonuses = source.bonuses ?? item.bonuses;
+  const bonuses = rawBonuses && typeof rawBonuses === 'object'
+    ? Object.fromEntries(
+      Object.entries(rawBonuses)
+        .filter(([stat, value]) =>
+          ['strength', 'hp', 'defense', 'luck'].includes(stat) &&
+          Number.isFinite(Number(value))
+        )
+        .map(([stat, value]) => [stat, Number(value)])
+    )
+    : null;
+
   return {
     id: Number(item.id),
+    catalogId,
     name,
     quantity,
     price,
-    stackable: item.stackable !== false,
-    wearable: item.wearable === true,
-    class: item.class ?? item.item_class ?? null,
-    type: item.type ?? null,
-    attribute: item.attribute ?? null,
+    stackable: source.stackable !== false,
+    wearable: source.wearable === true,
+    class: source.class ?? source.item_class ?? null,
+    type: source.type ?? null,
+    attribute: source.attribute ?? null,
     att_value: attValue,
+    ...(bonuses && Object.keys(bonuses).length > 0 ? { bonuses } : {}),
     equipped: item.equipped === true,
     unlimitedStock: item.unlimitedStock === true
   };
@@ -53,6 +75,14 @@ class Inventory {
     const normalizedItem = normalizeItem(item);
     if (!normalizedItem) return false;
 
+    if (
+      normalizedItem.equipped &&
+      Inventory.getEquippedCountByClass(normalizedItem.class) >=
+        (Inventory.equipmentSlots()[normalizedItem.class] ?? 0)
+    ) {
+      return false;
+    }
+
     const existingItem = items.find(i => i.id === normalizedItem.id);
 
     if (existingItem && normalizedItem.stackable) {
@@ -63,6 +93,7 @@ class Inventory {
       return true;
     }
 
+    if (items.length >= INVENTORY_CAPACITY) return false;
     items.push(normalizedItem);
     Inventory.persist();
     return true;
@@ -88,7 +119,28 @@ class Inventory {
     }
 
     items = itemsArray.map(normalizeItem).filter(Boolean);
+    Inventory.normalizeEquipmentSlots();
     return items;
+  }
+
+  static normalizeEquipmentSlots() {
+    const slots = Inventory.equipmentSlots();
+    const counts = {};
+    let changed = false;
+
+    items.forEach(item => {
+      if (!item.equipped || !item.wearable) return;
+      const limit = slots[item.class] ?? 0;
+      counts[item.class] = counts[item.class] || 0;
+      if (counts[item.class] >= limit) {
+        item.equipped = false;
+        changed = true;
+        return;
+      }
+      counts[item.class]++;
+    });
+
+    return changed;
   }
 
   static persist() {
@@ -110,6 +162,7 @@ class Inventory {
           if (typeof parsed.playerHp === 'number' && Number.isFinite(parsed.playerHp)) {
             playerHp = Math.max(0, parsed.playerHp);
           }
+          if (Inventory.normalizeEquipmentSlots()) Inventory.persist();
           return items;
         }
       }
@@ -129,7 +182,7 @@ class Inventory {
   }
 
   static itemsLength() {
-    return items.reduce((length, item) => length + item.quantity, 0);
+    return items.length;
   }
 
   static getCapacity() {
@@ -148,7 +201,7 @@ class Inventory {
       chestplate: 1,
       pants: 1,
       boots: 1,
-      accessory: 4
+      accessory: 3
     };
   }
 
@@ -197,11 +250,20 @@ class Inventory {
     const stats = {
       strength: 0,
       hp: 100,
-      defense: 0
+      defense: 0,
+      luck: 0
     };
 
     Inventory.getEquippedItems().forEach(item => {
-      if (item.attribute && typeof item.att_value === 'number' && stats[item.attribute] !== undefined) {
+      if (item.bonuses) {
+        Object.entries(item.bonuses).forEach(([attribute, value]) => {
+          if (stats[attribute] !== undefined) stats[attribute] += value;
+        });
+      } else if (
+        item.attribute &&
+        typeof item.att_value === 'number' &&
+        stats[item.attribute] !== undefined
+      ) {
         stats[item.attribute] += item.att_value;
       }
     });
@@ -214,7 +276,8 @@ class Inventory {
     return {
       strength: stats.strength,
       hp: stats.hp,
-      defense: stats.defense
+      defense: stats.defense,
+      luck: stats.luck
     };
   }
 

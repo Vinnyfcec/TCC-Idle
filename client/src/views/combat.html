@@ -2,47 +2,73 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Combate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Combate — Mochileiro</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body data-page="combat">
-  <header class="header">
-    <h1 class="game-title">Mochileiro</h1>
-    <div class="gold-hud">
-      <div>
-        <div class="gold-hud-label">Ouro:</div>
-        <div id="gold-display">1000</div>
+<body data-page="combat" class="combat-page">
+  <header class="scene-hud combat-scene-hud">
+    <span class="scene-logo">Mochileiro</span>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+    </div>
+    <span class="hud-icon-spacer" aria-hidden="true"></span>
+  </header>
+
+  <main id="combat-stage" class="combat-stage phase-idle">
+    <div class="combat-background" aria-hidden="true">
+      <div class="combat-background-track">
+        <img src="../../assets/backgrounds/Floresta Pixelada com Caminho Infinito.png" alt="">
+        <img src="../../assets/backgrounds/Floresta Pixelada com Caminho Infinito.png" alt="">
       </div>
     </div>
-  </header>
-<main class="combat-section">
-  <div id="game-screen"></div>
+    <div class="combat-atmosphere" aria-hidden="true"></div>
+    <p id="combat-location" class="combat-location">Estrada</p>
 
-  <div class="combat-hud">
+    <section class="combat-message" aria-live="polite">
+      <p id="game-screen">Prepare-se.</p>
+      <p id="loot-message" class="loot-message"></p>
+    </section>
+
+    <div class="combatants" aria-hidden="true">
+      <div id="hero-sprite" class="combatant hero-sprite">
+        <span class="sprite-head"></span><span class="sprite-body"></span><span class="sprite-weapon"></span>
+      </div>
+      <div id="enemy-sprite" class="combatant enemy-sprite">
+        <span class="sprite-head"></span><span class="sprite-body"></span><span class="sprite-weapon"></span>
+      </div>
+    </div>
+
+    <section id="combat-inventory" class="combat-inventory" hidden>
+      <h2>Descanso · mochila</h2>
+      <p>Use itens ou ajuste o equipamento antes de continuar.</p>
+      <span id="slot-count" hidden></span>
+      <div id="inventory-grid"></div>
+    </section>
+
+    <div class="combat-controls">
+      <button id="start-mission-btn" type="button">Iniciar missão</button>
+      <button id="return-village-btn" type="button" hidden>Retornar à vila</button>
+    </div>
+  </main>
+
+  <footer id="combat-footer" class="combat-hud" hidden aria-label="Status do combate">
     <div id="player-box"></div>
     <div id="enemy-box"></div>
-  </div>
+  </footer>
 
-  <button id="start-mission-btn" type="button">
-    Iniciar missão
-  </button>
-  <button id="return-village-btn" type="button" hidden>Voltar para a vila</button>
-</main>
-
-<script src="../js/data/items.js"></script>
-
-<script src="../js/inventory.js"></script>
-
-<script src="../js/shop.js"></script>
-
-<script src="../js/combat.js"></script>
-
-<script src="../js/ui/UI.js"></script>
-
-<script src="../js/ui/UIcombat.js"></script>
-
-<script src="../js/main.js"></script>
-
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/combat.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/ui/UIcombat.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

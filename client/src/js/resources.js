@@ -52,22 +52,23 @@ class Resources {
     }
   }
 
-  static collectWood() {
+  static collectWood(amount = 1) {
     Resources.load();
     const now = Date.now();
     if (now - Resources.lastWoodCollectedAt < Resources.collectionCooldownMs) {
       return false;
     }
-    if (Resources.wood >= Number.MAX_SAFE_INTEGER) {
+    if (!Number.isSafeInteger(amount) || amount <= 0 ||
+      Resources.wood + amount > Number.MAX_SAFE_INTEGER) {
       console.error('Não é possível armazenar mais madeira.');
       return false;
     }
 
     const previousCollectionTime = Resources.lastWoodCollectedAt;
-    Resources.wood += 1;
+    Resources.wood += amount;
     Resources.lastWoodCollectedAt = now;
     if (Resources.persist()) return true;
-    Resources.wood -= 1;
+    Resources.wood -= amount;
     Resources.lastWoodCollectedAt = previousCollectionTime;
     return false;
   }

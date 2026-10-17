@@ -2,35 +2,52 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loja</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loja — Mochileiro</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body data-page="shop">
-  <header class="header">
-    <h1 class="game-title">Mochileiro</h1>
-    <div class="gold-hud">
-      <div>
-        <div class="gold-hud-label">Ouro:</div>
-        <div id="gold-display">1000</div>
-      </div>
+<body data-page="shop" class="shop-scene-page">
+  <header class="scene-hud">
+    <span class="scene-logo">Mochileiro</span>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
     </div>
+    <span class="hud-icon-spacer" aria-hidden="true"></span>
   </header>
 
-  <main class="shop">
-    <button id="back-to-village-btn" type="button">Voltar para a vila</button>
-    <div class="shop-header">
-      <span class="shop-title">Loja</span>
-    </div>
-    <div class="shop-body">
-      <div id="shop-list"></div>
-    </div>
+  <main class="shop-scene">
+    <button id="sell-items-btn" class="shop-sell-button" type="button">
+      Vender itens
+    </button>
+    <button id="shop-to-guild-btn" class="scene-arrow scene-arrow-left" type="button" aria-label="Voltar para o quadro da guilda">
+      <span aria-hidden="true">←</span>
+      <span>Quadro de missões</span>
+    </button>
+    <section class="shop-counter" aria-labelledby="shop-title">
+      <img class="shop-counter-art" src="../../assets/aaa/bancada%20loja.png" alt="" aria-hidden="true">
+      <div class="shop-counter-heading">
+        <p class="eyebrow">Capital · rua principal</p>
+        <h1 id="shop-title">Loja</h1>
+      </div>
+      <div class="shop-body">
+        <div id="shop-list"></div>
+      </div>
+    </section>
+    <button id="shop-to-village-btn" class="scene-arrow scene-arrow-right" type="button" aria-label="Voltar para a vila">
+      <span>Voltar para a vila</span>
+      <span aria-hidden="true">→</span>
+    </button>
   </main>
 
   <script src="../js/data/items.js"></script>
   <script src="../js/inventory.js"></script>
   <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
   <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

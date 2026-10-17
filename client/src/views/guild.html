@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quadro de missões — Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="guild" class="mission-board-page">
+  <header class="scene-hud">
+    <a class="scene-logo" href="capital.html" aria-label="Voltar à capital">Mochileiro</a>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <main class="mission-board-scene">
+    <section class="mission-paper">
+      <p class="eyebrow">Guilda dos aventureiros · trabalho disponível</p>
+      <h1>Estrada do Pântano</h1>
+      <p class="capital-mission-reward">Valor <strong>200 ouro</strong></p>
+      <button id="accept-mission-btn" type="button">Aceitar missão</button>
+      <button id="back-to-village-btn" class="secondary-button" type="button">Voltar à capital</button>
+    </section>
+    <p id="demo-notice" class="demo-notice" role="status" hidden></p>
+  </main>
+
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

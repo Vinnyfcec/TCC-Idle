@@ -3,6 +3,29 @@ const enemyBox = document.getElementById('enemy-box');
 const playerBox = document.getElementById('player-box');
 const startBtn = document.getElementById('start-mission-btn');
 const returnVillageBtn = document.getElementById('return-village-btn');
+const lootMessage = document.getElementById('loot-message');
+const combatStage = document.getElementById('combat-stage');
+const combatFooter = document.getElementById('combat-footer');
+const inventoryGrid = document.getElementById('inventory-grid');
+const inventoryPanel = document.getElementById('combat-inventory');
+let showingRestStats = false;
+
+function showCombatFooter(resting = false) {
+  if (!combatFooter) return;
+  combatFooter.hidden = false;
+  combatFooter.classList.toggle('is-resting', resting);
+  combatFooter.classList.remove('has-single-panel');
+  document.body.style.setProperty(
+    '--combat-footer-height',
+    resting ? 'var(--combat-rest-height)' : '132px'
+  );
+}
+
+function hideRestStats() {
+  if (!showingRestStats) return;
+  showingRestStats = false;
+  CombatUI.updatePlayerHp();
+}
 
 function healthPercent(current, max) {
   if (!Number.isFinite(max) || max <= 0) return 0;
@@ -36,9 +59,18 @@ class CombatUI {
   static init() {
   if (!startBtn) return;
 
+  const params = new URLSearchParams(window.location.search);
+  const locationTitle = document.getElementById('combat-location');
+  if (locationTitle) {
+    const missionId = params.get('mission') || 'swamp-road';
+    locationTitle.textContent = params.get('mode') === 'road'
+      ? 'Estrada'
+      : DemoGame.missions[missionId]?.title || 'Missão';
+  }
+
   if (returnVillageBtn) {
     returnVillageBtn.onclick = () => {
-      window.location.href = '../../dev/lobbydev.html';
+      DemoGame.beginTravel('lobby');
     };
   }
 
@@ -59,9 +91,9 @@ class CombatUI {
     const started = startGameLoop();
 
     if (started) {
+      showCombatFooter();
+      startBtn.hidden = true;
       if (returnVillageBtn) returnVillageBtn.hidden = true;
-
-      CombatUI.updateStartButton('Em combate...');
 
       if (playerBox) playerBox.style.display = 'block';
       if (enemyBox) enemyBox.style.display = 'block';
@@ -69,8 +101,6 @@ class CombatUI {
       CombatUI.updatePlayerHp();
     }
   };
-
-  const params = new URLSearchParams(window.location.search);
 
   if (params.get('start') === '1') {
     startBtn.click();
@@ -88,14 +118,42 @@ class CombatUI {
 
     const currentHp = Inventory.getPlayerHp();
     const maxHp = Inventory.getPlayerMaxHp();
+    playerBox.style.display = 'block';
 
-    playerBox.replaceChildren(
-      createHealthView('Jogador', currentHp, maxHp, 'player')
-    );
+    const playerView = createHealthView('Jogador', currentHp, maxHp, 'player');
+    if (showingRestStats) {
+      const stats = Inventory.playerStats();
+      const statGrid = document.createElement('div');
+      statGrid.className = 'rest-stat-grid';
+      const statValues = [
+        ['Dano', stats.strength],
+        ['Defesa', stats.defense],
+        ['Sorte', stats.luck],
+        ['Crítico', `${Math.min(100, stats.luck)}%`]
+      ];
+      statValues.forEach(([label, value]) => {
+        const stat = document.createElement('div');
+        stat.className = 'rest-stat-item';
+
+        const statLabel = document.createElement('span');
+        statLabel.className = 'rest-stat-label';
+        statLabel.textContent = label;
+
+        const statValue = document.createElement('strong');
+        statValue.className = 'rest-stat-value';
+        statValue.textContent = value;
+
+        stat.append(statLabel, statValue);
+        statGrid.appendChild(stat);
+      });
+      playerView.appendChild(statGrid);
+    }
+    playerBox.replaceChildren(playerView);
   }
 
   static updateEnemy(enemy) {
     if (!enemyBox || !enemy) return;
+    enemyBox.style.display = 'block';
 
     const maxHp = Math.max(
       1,
@@ -112,37 +170,118 @@ class CombatUI {
   }
 
   static showRestTimer(timeLeft) {
+    showingRestStats = true;
+    showCombatFooter(true);
+    CombatUI.updatePlayerHp();
+    if (combatStage) {
+      combatStage.classList.remove('phase-idle', 'phase-travel', 'phase-combat');
+      combatStage.classList.add('phase-rest');
+    }
     if (gameScreen) {
       gameScreen.textContent = `Descansando... ${timeLeft}s`;
     }
+    if (enemyBox && inventoryGrid && inventoryPanel) {
+      enemyBox.classList.add('inventory-board');
+      enemyBox.appendChild(inventoryGrid);
+      enemyBox.style.display = 'flex';
+      inventoryPanel.hidden = true;
+    }
   }
 
-  static showCombat() {
-    if (gameScreen) {
-      gameScreen.textContent = 'Em combate!';
+  static showCombat(enemy) {
+    hideRestStats();
+    showCombatFooter();
+    if (combatStage) {
+      combatStage.classList.remove('enemy-entering', 'enemy-approaching');
+      combatStage.classList.remove('phase-idle', 'phase-travel', 'phase-rest');
+      combatStage.classList.add('phase-combat');
     }
+    if (enemyBox) {
+      enemyBox.classList.remove('inventory-board');
+      enemyBox.style.display = 'block';
+    }
+    if (inventoryGrid && inventoryPanel && !inventoryPanel.contains(inventoryGrid)) {
+      inventoryPanel.appendChild(inventoryGrid);
+    }
+    const enemySprite = document.getElementById('enemy-sprite');
+    if (enemySprite) enemySprite.dataset.name = enemy?.name || '';
+    if (gameScreen) {
+      gameScreen.textContent = enemy?.isRoadEncounter
+        ? 'Um inimigo bloqueia a estrada!'
+        : 'Em combate!';
+    }
+  }
+
+  static showEnemyApproach(enemy) {
+    if (!combatStage) return;
+    const enemySprite = document.getElementById('enemy-sprite');
+    if (enemySprite) enemySprite.dataset.name = enemy?.name || '';
+    combatStage.classList.add('enemy-entering');
+  }
+
+  static showTravel() {
+    hideRestStats();
+    showCombatFooter();
+    if (combatFooter) combatFooter.classList.add('has-single-panel');
+    if (combatStage) {
+      combatStage.classList.remove(
+        'phase-idle',
+        'phase-combat',
+        'phase-rest',
+        'enemy-entering'
+      );
+      combatStage.classList.add('phase-travel');
+    }
+    if (enemyBox) {
+      enemyBox.classList.remove('inventory-board');
+      enemyBox.style.display = 'none';
+    }
+    if (inventoryGrid && inventoryPanel && !inventoryPanel.contains(inventoryGrid)) {
+      inventoryPanel.appendChild(inventoryGrid);
+    }
+    if (gameScreen) gameScreen.textContent = 'Na estrada...';
+  }
+
+  static closeRestBoard() {
+    hideRestStats();
+    showCombatFooter();
+    if (enemyBox) enemyBox.classList.remove('inventory-board');
+    if (inventoryGrid && inventoryPanel && !inventoryPanel.contains(inventoryGrid)) {
+      inventoryPanel.appendChild(inventoryGrid);
+    }
+    if (inventoryPanel) inventoryPanel.hidden = true;
+  }
+
+  static showLoot(message) {
+    if (lootMessage) lootMessage.textContent = message;
+  }
+
+  static showCritical({ damage }) {
+    if (gameScreen) gameScreen.textContent = `Crítico! ${damage} de dano.`;
   }
 
   static showMissionComplete() {
     if (!gameScreen) return;
 
-    gameScreen.textContent = 'Missão concluída!';
+    const missionId = new URLSearchParams(window.location.search).get('mission');
+    gameScreen.textContent = missionId === 'villain-negotiation'
+      ? 'Negociação concluída! O mercador foi resgatado.'
+      : missionId === 'orc-extermination'
+        ? 'Extermínio concluído! Você recebeu 450 ouro.'
+        : 'Missão concluída!';
     if (returnVillageBtn) returnVillageBtn.hidden = false;
+  }
 
-    setTimeout(() => {
-      gameScreen.textContent = '';
-      CombatUI.updateStartButton('Iniciar missão');
-    }, 3000);
+  static showMissionUnavailable(missionId) {
+    if (!gameScreen) return;
+    gameScreen.textContent = missionId === 'villain-negotiation'
+      ? `Missão bloqueada. Reconstrua a casa do mercador, conclua um extermínio de orcs e tenha ${DemoGame.merchantRescueCost} ouro.`
+      : 'Esta missão não está disponível.';
   }
 
   static showGameOver() {
     if (!gameScreen) return;
 
     gameScreen.textContent = 'Derrota. Prepare-se e tente novamente.';
-
-    setTimeout(() => {
-      gameScreen.textContent = '';
-      CombatUI.updateStartButton('Iniciar missão');
-    }, 3000);
   }
 }

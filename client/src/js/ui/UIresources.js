@@ -1,67 +1,28 @@
 class ResourcesUI {
   static collectionCooldownTimer = null;
+  static initialized = false;
 
   static init() {
+    if (ResourcesUI.initialized) return;
     Resources.load();
-    UI.loadGold();
-    UI.updateGold();
 
     const collectButton = document.getElementById('collect-wood-btn');
     if (collectButton) {
       collectButton.addEventListener('click', () => {
-        if (Resources.collectWood()) {
+        if (!DemoGame.canExploreForest()) {
+          return;
+        }
+        const axeEquipped = Inventory.getEquippedItems()
+          .some(item => Number(item.catalogId ?? item.id) === 4);
+        const amount = axeEquipped ? 5 : 1;
+        if (Resources.collectWood(amount)) {
           ResourcesUI.render();
           ResourcesUI.scheduleCollectionReady();
         }
       });
     }
 
-    const collectNavigationButton = document.getElementById('collect-wood-nav-btn');
-    if (collectNavigationButton) {
-      collectNavigationButton.addEventListener('click', () => {
-        window.location.href = '../src/views/coleta.html';
-      });
-    }
-
-    const rebuildButton = document.getElementById('rebuild-btn');
-    if (rebuildButton) {
-      rebuildButton.addEventListener('click', () => {
-        if (Resources.rebuildCabinAndCart()) ResourcesUI.render();
-      });
-    }
-
-    const backButton = document.getElementById('back-to-lobby-btn');
-    if (backButton) {
-      backButton.addEventListener('click', () => {
-        window.location.href = '../../dev/lobbydev.html';
-      });
-    }
-
-    const navigation = [
-      ['start-mission-btn', '../src/views/combat.html?start=1'],
-      ['inventory-btn', '../src/views/inventory.html'],
-      ['shop-btn', '../src/views/shop.html']
-    ];
-
-    navigation.forEach(([buttonId, url]) => {
-      const button = document.getElementById(buttonId);
-      if (button) {
-        button.addEventListener('click', () => {
-          window.location.href = url;
-        });
-      }
-    });
-
-    const clearStorageButton = document.getElementById('clear-storage-btn');
-    if (clearStorageButton) {
-      clearStorageButton.addEventListener('click', () => {
-        if (!window.confirm('Apagar os dados locais?')) return;
-        ['game_inventory', 'game_gold', 'game_shop', RESOURCE_STORAGE_KEY]
-          .forEach(key => window.localStorage.removeItem(key));
-        window.location.reload();
-      });
-    }
-
+    ResourcesUI.initialized = true;
     ResourcesUI.render();
     ResourcesUI.scheduleCollectionReady();
   }
@@ -85,24 +46,21 @@ class ResourcesUI {
     const woodCount = document.getElementById('wood-count');
     if (woodCount) woodCount.textContent = String(Resources.wood);
 
-    const collectButton = document.getElementById('collect-wood-btn');
-    if (collectButton) {
-      collectButton.disabled = Resources.getCollectionCooldownRemaining() > 0;
+    const woodYield = document.getElementById('wood-yield');
+    if (woodYield) {
+      const axeEquipped = Inventory.getEquippedItems().some(
+        item => Number(item.catalogId ?? item.id) === 4
+      );
+      woodYield.textContent = axeEquipped
+        ? 'Seu machado rende 5 madeiras por coleta.'
+        : 'Sem machado equipado: 1 madeira por coleta.';
     }
 
-    const rebuildButton = document.getElementById('rebuild-btn');
-    const rebuildRequirement = document.getElementById('rebuild-requirement');
-    const houseObtained = document.getElementById('house-obtained');
-    if (rebuildButton && rebuildRequirement && houseObtained) {
-      const obtained = Resources.cabinObtained;
-      rebuildButton.hidden = obtained;
-      rebuildButton.disabled = obtained || Resources.wood < Resources.cabinWoodCost;
-      rebuildRequirement.hidden = obtained;
-      rebuildRequirement.textContent =
-        `Madeira: ${Resources.wood}/${Resources.cabinWoodCost}`;
-      houseObtained.hidden = !obtained;
+    const collectButton = document.getElementById('collect-wood-btn');
+    if (collectButton) {
+      collectButton.disabled =
+        !DemoGame.canExploreForest() ||
+        Resources.getCollectionCooldownRemaining() > 0;
     }
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => ResourcesUI.init());

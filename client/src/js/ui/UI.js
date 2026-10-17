@@ -1,5 +1,5 @@
 const STORAGE_KEY_GOLD = 'game_gold';
-const STARTING_GOLD = 1000;
+const STARTING_GOLD = 200;
 
 class UI {
   static gold = STARTING_GOLD;
