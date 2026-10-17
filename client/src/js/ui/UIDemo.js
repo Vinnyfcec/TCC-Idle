@@ -296,6 +296,7 @@ class DemoUI {
       .get('mission') || 'swamp-road';
     const mission = DemoGame.missions[missionId];
     const eyebrow = document.getElementById('capital-mission-eyebrow');
+    const description = document.getElementById('capital-mission-description');
     const reward = document.getElementById('capital-mission-reward');
     const acceptButton = document.getElementById('accept-mission-btn');
     if (!mission) {
@@ -306,6 +307,7 @@ class DemoUI {
     }
 
     title.textContent = mission.title;
+    if (description) description.textContent = mission.description;
     if (eyebrow) {
       eyebrow.textContent = missionId === 'villain-negotiation' &&
         !Resources.cabinObtained

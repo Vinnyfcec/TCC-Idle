@@ -34,7 +34,7 @@ const missionEnemySets = {
   },
   'villain-negotiation': {
     enemies: [
-      { name: 'Escudeiro Corrompido', hp: 125, attack: 17, defense: 7, isBoss: true }
+      { name: 'Escudeiro Corrompido', hp: 125, attack: 14, defense: 5, isBoss: true }
     ]
   }
 };

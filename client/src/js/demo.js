@@ -8,16 +8,19 @@ class DemoGame {
     'swamp-road': {
       title: 'Estrada do Pântano',
       eyebrow: 'Guilda dos aventureiros · missão disponível',
+      description: 'Uma caravana foi emboscada por orcs. A filiação mercantil solicitou a liberação das estradas, o valor é razoável.',
       reward: 200
     },
     'orc-extermination': {
       title: 'Extermínio de Orcs',
       eyebrow: 'Guilda dos aventureiros · missão ilimitada',
+      description: 'Após a liberação das estradas, os orcs se revoltaram e começaram a atacar mais e mais frequentemente, precisamos de alguém para lidar com isso.',
       reward: 450
     },
     'villain-negotiation': {
       title: 'Negociação com os Vilões',
       eyebrow: 'Guilda dos aventureiros · missão especial',
+      description: 'Consegui o dinheiro para resgatar o Gerson, espero que não tenha nenhuma gracinha. Pessoal, vou salvá-los!',
       reward: 0
     }
   };

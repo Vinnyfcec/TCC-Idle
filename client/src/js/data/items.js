@@ -130,8 +130,8 @@ const itemDatabase = {
     class: 'weapon',
     type: 'pierce',
     attribute: 'strength',
-    att_value: 8,
-    bonuses: { strength: 8, defense: 2 }
+    att_value: 9,
+    bonuses: { strength: 9, defense: 2 }
   },
   12: {
     id: 12,
