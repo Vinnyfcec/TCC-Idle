@@ -29,6 +29,7 @@ class UI {
     }
     try {
       localStorage.setItem(STORAGE_KEY_GOLD, String(UI.gold));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
     } catch (e) {
       console.warn('Falha ao salvar ouro no localStorage', e);
     }

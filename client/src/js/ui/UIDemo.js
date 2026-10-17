@@ -1,11 +1,32 @@
 class DemoUI {
   static initialized = false;
+  static dialogueTypingTimer = null;
 
   static init() {
     if (DemoUI.initialized) return;
     DemoGame.init();
     UI.loadGold();
     Resources.load();
+
+    const titleButton = document.querySelector('.scene-title-button');
+    const titleDialog = document.getElementById('title-return-dialog');
+    const titleNoButton = titleDialog?.querySelector('.title-return-no');
+    const titleYesButton = titleDialog?.querySelector('.title-return-yes');
+    if (titleButton && titleDialog) {
+      titleButton.addEventListener('click', () => {
+        titleDialog.hidden = false;
+        titleNoButton?.focus();
+      });
+    }
+    titleNoButton?.addEventListener('click', () => {
+      titleDialog.hidden = true;
+      titleButton?.focus();
+    });
+    titleYesButton?.addEventListener('click', () => {
+      window.location.href = document.body.dataset.page === 'lobby'
+        ? '../src/views/index.html'
+        : 'index.html';
+    });
 
     const travelToGuild = document.getElementById('guild-btn');
     if (travelToGuild) {
@@ -68,8 +89,34 @@ class DemoUI {
           DemoUI.renderMissionDetails();
           return;
         }
+        if (missionId === 'villain-negotiation') {
+          DemoUI.showNegotiationDialogue();
+          return;
+        }
         window.location.href =
           `combat.html?mode=mission&mission=${encodeURIComponent(missionId)}&start=1`;
+      });
+    }
+
+    const negotiationContinue = document.getElementById('negotiation-continue');
+    if (negotiationContinue) {
+      negotiationContinue.addEventListener('click', () => {
+        const dialog = document.getElementById('negotiation-dialog');
+        const speaker = document.getElementById('negotiation-speaker');
+        const text = document.getElementById('negotiation-text');
+        if (!dialog || !speaker || !text) return;
+        if (dialog.dataset.typing === 'true') {
+          DemoUI.completeDialogueTyping(dialog, text);
+          return;
+        }
+
+        const nextLine = Number(dialog.dataset.line || 0) + 1;
+        if (nextLine >= DemoUI.negotiationDialogue.length) {
+          window.location.href =
+            'combat.html?mode=mission&mission=villain-negotiation&start=1';
+          return;
+        }
+        DemoUI.renderNegotiationDialogueLine(nextLine);
       });
     }
 
@@ -139,6 +186,61 @@ class DemoUI {
       });
     }
 
+    const introDialog = document.getElementById('village-intro-dialog');
+    const closeIntroDialog = document.getElementById('village-intro-continue');
+    if (closeIntroDialog) {
+      closeIntroDialog.addEventListener('click', () => {
+        const introText = document.getElementById('village-intro-text');
+        if (!introDialog || !introText) return;
+        if (introDialog.dataset.typing === 'true') {
+          DemoUI.completeDialogueTyping(introDialog, introText);
+          return;
+        }
+        if (introDialog.dataset.step !== '2') {
+          introDialog.dataset.step = '2';
+          DemoUI.typeDialogue(
+            'Primeiro, é melhor eu me equipar, assim quem sabe a guilda libera uma missão para mim!'
+          );
+          return;
+        }
+        introDialog.hidden = true;
+      });
+    }
+
+    const finishDemoButton = document.getElementById('finish-demo-btn');
+    if (finishDemoButton) {
+      finishDemoButton.addEventListener('click', () => {
+        const endingDialog = document.getElementById('village-ending-dialog');
+        const endingText = document.getElementById('village-ending-text');
+        if (endingDialog?.dataset.typing === 'true' && endingText) {
+          DemoUI.completeDialogueTyping(endingDialog, endingText);
+          return;
+        }
+        DemoGame.state.endingPending = false;
+        DemoGame.state.demoCompleted = true;
+        DemoGame.save();
+        DemoUI.showDemoCompletion();
+      });
+    }
+
+    document.getElementById('return-to-menu-btn')?.addEventListener('click', () => {
+      window.location.href = '../src/views/index.html';
+    });
+
+    const collectionDialog = document.getElementById('collection-intro-dialog');
+    const closeCollectionDialog = document.getElementById('collection-intro-continue');
+    if (closeCollectionDialog) {
+      closeCollectionDialog.addEventListener('click', () => {
+        const dialogueText = document.getElementById('collection-intro-text');
+        if (!collectionDialog || !dialogueText) return;
+        if (collectionDialog.dataset.typing === 'true') {
+          DemoUI.completeDialogueTyping(collectionDialog, dialogueText);
+        } else {
+          collectionDialog.hidden = true;
+        }
+      });
+    }
+
     const rescueButton = document.getElementById('rescue-merchant-btn');
     if (rescueButton) {
       rescueButton.addEventListener('click', () => {
@@ -166,6 +268,7 @@ class DemoUI {
           DEMO_STATE_KEY,
           DEMO_DAY_SNAPSHOT_KEY
         ].forEach(key => localStorage.removeItem(key));
+        if (typeof SaveManager !== 'undefined') SaveManager.resetActiveGame();
         window.location.reload();
       });
     }
@@ -193,6 +296,164 @@ class DemoUI {
     DemoUI.initialized = true;
     DemoUI.render();
     DemoUI.renderMissionDetails();
+    DemoUI.showFirstVillageDialogue();
+    DemoUI.showFirstCollectionDialogue();
+    DemoUI.showFinalScene();
+  }
+
+  static showFirstVillageDialogue() {
+    const dialog = document.getElementById('village-intro-dialog');
+    if (
+      document.body.dataset.page !== 'lobby' ||
+      !dialog ||
+      DemoGame.state.endingPending ||
+      DemoGame.state.demoCompleted ||
+      DemoGame.state.introShown
+    ) return;
+
+    DemoGame.state.introShown = true;
+    DemoGame.save();
+    DemoGame.saveDaySnapshot();
+    dialog.dataset.step = '1';
+    dialog.hidden = false;
+    DemoUI.typeDialogue(
+      document.getElementById('village-intro-text').textContent,
+      'village-intro-dialog',
+      'village-intro-text'
+    );
+    document.getElementById('village-intro-continue')?.focus();
+  }
+
+  static showFinalScene() {
+    if (document.body.dataset.page !== 'lobby') return;
+    if (DemoGame.state.demoCompleted) {
+      DemoUI.showDemoCompletion();
+      return;
+    }
+    if (!DemoGame.state.endingPending) return;
+
+    const dialog = document.getElementById('village-ending-dialog');
+    if (!dialog) return;
+    dialog.hidden = false;
+    DemoUI.typeDialogue(
+      document.getElementById('village-ending-text').textContent,
+      'village-ending-dialog',
+      'village-ending-text'
+    );
+    document.getElementById('finish-demo-btn')?.focus();
+  }
+
+  static showDemoCompletion() {
+    const endingDialog = document.getElementById('village-ending-dialog');
+    const completionScreen = document.getElementById('demo-completion-screen');
+    const summary = document.getElementById('demo-completion-summary');
+    if (!completionScreen || !summary) return;
+
+    if (endingDialog) endingDialog.hidden = true;
+    const days = DemoGame.state.day;
+    summary.textContent = `Você levou ${days} ${days === 1 ? 'dia' : 'dias'} pra resgatar o mercador, parabéns!`;
+    completionScreen.hidden = false;
+    document.getElementById('return-to-menu-btn')?.focus();
+  }
+
+  static showFirstCollectionDialogue() {
+    const dialog = document.getElementById('collection-intro-dialog');
+    if (
+      document.body.dataset.page !== 'collection' ||
+      !dialog ||
+      DemoGame.state.collectionIntroShown
+    ) return;
+
+    DemoGame.state.collectionIntroShown = true;
+    DemoGame.save();
+    DemoGame.saveDaySnapshot();
+    dialog.hidden = false;
+    DemoUI.typeDialogue(
+      document.getElementById('collection-intro-text').textContent,
+      'collection-intro-dialog',
+      'collection-intro-text'
+    );
+    document.getElementById('collection-intro-continue')?.focus();
+  }
+
+  static typeDialogue(text, dialogId = 'village-intro-dialog', textId = 'village-intro-text') {
+    const dialog = document.getElementById(dialogId);
+    const textElement = document.getElementById(textId);
+    if (!dialog || !textElement) return;
+
+    clearInterval(DemoUI.dialogueTypingTimer);
+    DemoUI.dialogueTypingTimer = null;
+    dialog.dataset.fullText = text;
+    textElement.textContent = '';
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      textElement.textContent = text;
+      dialog.dataset.typing = 'false';
+      return;
+    }
+
+    const characters = Array.from(text);
+    let index = 0;
+    dialog.dataset.typing = 'true';
+    DemoUI.dialogueTypingTimer = setInterval(() => {
+      textElement.textContent += characters[index];
+      index++;
+      if (index >= characters.length) {
+        clearInterval(DemoUI.dialogueTypingTimer);
+        DemoUI.dialogueTypingTimer = null;
+        dialog.dataset.typing = 'false';
+      }
+    }, 28);
+  }
+
+  static completeDialogueTyping(dialog, textElement) {
+    clearInterval(DemoUI.dialogueTypingTimer);
+    DemoUI.dialogueTypingTimer = null;
+    textElement.textContent = dialog.dataset.fullText;
+    dialog.dataset.typing = 'false';
+  }
+
+  static negotiationDialogue = [
+    {
+      speaker: 'Jorge',
+      text: 'Como assim o preço vai aumentar? Você sabe o quanto eu ralei pra juntar os primeiros 1500?'
+    },
+    {
+      speaker: 'Vilão',
+      text: 'Negócios são negócios, mas sabe, o moral da galera aqui tá meio pra baixo, que tal uma lutinha? se você ganhar, eu não aumento o preço, se você perder... aí eu fico com esses trocados que você trouxe, e esse velho que você quis trazer também.'
+    },
+    {
+      speaker: 'Jorge',
+      text: 'mas... tá, se eu não aceitar eu não vou ter dinheiro pra resgatar o gerson, pode mandar meu adversário!'
+    }
+  ];
+
+  static showNegotiationDialogue() {
+    const dialog = document.getElementById('negotiation-dialog');
+    if (!dialog) return;
+    dialog.hidden = false;
+    DemoUI.renderNegotiationDialogueLine(0);
+    document.getElementById('negotiation-continue')?.focus();
+  }
+
+  static renderNegotiationDialogueLine(index) {
+    const dialog = document.getElementById('negotiation-dialog');
+    const speaker = document.getElementById('negotiation-speaker');
+    const text = document.getElementById('negotiation-text');
+    const button = document.getElementById('negotiation-continue');
+    const line = DemoUI.negotiationDialogue[index];
+    if (!dialog || !speaker || !text || !button || !line) return;
+
+    dialog.dataset.line = String(index);
+    speaker.textContent = line.speaker;
+    button.textContent = index === DemoUI.negotiationDialogue.length - 1
+      ? 'Lutar!'
+      : 'Continuar';
+    DemoUI.typeDialogue(
+      line.text,
+      'negotiation-dialog',
+      'negotiation-text'
+    );
   }
 
   static showVillageInteraction(eyebrow, title, copy) {

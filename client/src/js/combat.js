@@ -194,12 +194,16 @@ function awardEnemyDrop(enemy, guaranteedBossRewardId) {
   return `${accessoryMessage} ${weaponMessage}`;
 }
 
-function finishMission(won, onEnd) {
+function finishMission(won, onEnd, missionId) {
   inventoryLocked = false;
   missionRunning = false;
   CombatEvents.emit(won ? 'missionComplete' : 'gameOver');
   if (onEnd) onEnd(won);
-  if (!won && typeof DemoGame !== 'undefined') DemoGame.handleDeath();
+  if (!won && typeof DemoGame !== 'undefined') {
+    DemoGame.handleDeath({
+      preserveNegotiationRequirements: missionId === 'villain-negotiation'
+    });
+  }
 }
 
 function startMission(missionId, onEnd) {
@@ -222,7 +226,7 @@ function startMission(missionId, onEnd) {
 
     travelToEncounter(mission.enemies[currentEnemyIndex], (won, enemy) => {
       if (!won) {
-        finishMission(false, onEnd);
+        finishMission(false, onEnd, missionId);
         return;
       }
 
@@ -243,7 +247,7 @@ function startMission(missionId, onEnd) {
     };
     travelToEncounter(roadEncounter, (won, enemy) => {
       if (!won) {
-        finishMission(false, onEnd);
+        finishMission(false, onEnd, missionId);
         return;
       }
       awardEnemyDrop(enemy);

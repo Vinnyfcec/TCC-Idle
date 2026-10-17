@@ -8,7 +8,7 @@
 </head>
 <body data-page="missions" class="scene-page capital-page">
   <header class="scene-hud">
-    <span class="scene-logo">Mochileiro</span>
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
     <div class="world-hud">
       <span>Dia <strong id="day-number">1</strong></span>
       <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
@@ -17,10 +17,17 @@
     <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
   </header>
 
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
+
   <main class="capital-world mission-select-world">
-    <div class="capital-sky" aria-hidden="true"></div>
-    <div class="capital-roofline" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <div class="capital-street" aria-hidden="true"></div>
     <button id="capital-village-btn" class="scene-arrow scene-arrow-left" type="button" aria-label="Voltar para a vila">
       <span aria-hidden="true">←</span>
       <span>Voltar para a vila</span>
@@ -59,6 +66,7 @@
   <script src="../js/ui/UI.js"></script>
   <script src="../js/ui/UIinventory.js"></script>
   <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/saveManager.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

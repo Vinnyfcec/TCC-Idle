@@ -35,7 +35,7 @@ class DemoGame {
   static tickHandle = null;
   static initialized = false;
 
-  static createDefaultState() {
+  static createDefaultState(introShown = true) {
     return {
       version: 1,
       day: 1,
@@ -45,6 +45,10 @@ class DemoGame {
       orcExterminationWins: 0,
       forestUnlocked: false,
       merchantRescued: false,
+      endingPending: false,
+      demoCompleted: false,
+      introShown,
+      collectionIntroShown: introShown,
       pendingTravel: null,
       notice: ''
     };
@@ -65,6 +69,8 @@ class DemoGame {
           DemoGame.state = {
             ...DemoGame.createDefaultState(),
             ...saved,
+            introShown: saved.introShown !== false,
+            collectionIntroShown: saved.collectionIntroShown !== false,
             completedMissions: Array.isArray(saved.completedMissions)
               ? [...new Set(saved.completedMissions.filter(
                 missionId => Object.hasOwn(DemoGame.missions, missionId)
@@ -79,7 +85,7 @@ class DemoGame {
       } catch (error) {
         console.warn('Erro ao carregar o estado da demo:', error);
       }
-      if (!DemoGame.state) DemoGame.state = DemoGame.createDefaultState();
+      if (!DemoGame.state) DemoGame.state = DemoGame.createDefaultState(false);
     }
 
     DemoGame.advanceElapsedDays();
@@ -99,6 +105,7 @@ class DemoGame {
   static save() {
     try {
       localStorage.setItem(DEMO_STATE_KEY, JSON.stringify(DemoGame.state));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
       return true;
     } catch (error) {
       console.error('Falha ao salvar o estado local da demo:', error);
@@ -114,6 +121,7 @@ class DemoGame {
 
     try {
       localStorage.setItem(DEMO_DAY_SNAPSHOT_KEY, JSON.stringify(snapshot));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
       return true;
     } catch (error) {
       console.error('Falha ao salvar o início do dia:', error);
@@ -189,6 +197,7 @@ class DemoGame {
       DemoGame.state.notice = 'Extermínio concluído. Você recebeu 450 ouro; a missão pode ser repetida.';
     } else {
       DemoGame.state.merchantRescued = true;
+      DemoGame.state.endingPending = true;
       DemoGame.state.notice = 'Negociação concluída. O mercador foi resgatado.';
     }
     return DemoGame.save();
@@ -226,12 +235,22 @@ class DemoGame {
         : '../../dev/lobbydev.html';
   }
 
-  static handleDeath() {
+  static handleDeath({ preserveNegotiationRequirements = false } = {}) {
     let snapshot;
     try {
+      const currentGold = UI.gold;
+      const merchantHouseRebuilt = Resources.cabinObtained;
       snapshot = JSON.parse(localStorage.getItem(DEMO_DAY_SNAPSHOT_KEY));
       if (!snapshot || !snapshot[DEMO_STATE_KEY]) {
         throw new Error('O salvamento do início do dia não existe.');
+      }
+      if (preserveNegotiationRequirements) {
+        snapshot.game_gold = String(currentGold);
+        const savedResources = snapshot.game_resources
+          ? JSON.parse(snapshot.game_resources)
+          : { wood: 0, lastWoodCollectedAt: 0 };
+        savedResources.cabinObtained = merchantHouseRebuilt;
+        snapshot.game_resources = JSON.stringify(savedResources);
       }
       for (const key of DemoGame.snapshotKeys) {
         if (snapshot[key] === null || snapshot[key] === undefined) {

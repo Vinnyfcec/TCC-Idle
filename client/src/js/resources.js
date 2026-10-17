@@ -45,6 +45,7 @@ class Resources {
         cabinObtained: Resources.cabinObtained,
         lastWoodCollectedAt: Resources.lastWoodCollectedAt
       }));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
       return true;
     } catch (error) {
       console.error('Falha ao salvar recursos:', error);

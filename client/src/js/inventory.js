@@ -147,6 +147,7 @@ class Inventory {
     try {
       const data = { items, playerHp };
       localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(data));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
     } catch (e) {
       console.warn('Falha ao salvar inventário no localStorage', e);
     }

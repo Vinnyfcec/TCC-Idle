@@ -158,10 +158,35 @@ const itemDatabase = {
     attribute: 'strength',
     att_value: 10,
     bonuses: { strength: 10, luck: 1 }
+  },
+  14: {
+    id: 14,
+    name: 'Vara de Pesca',
+    quantity: 1,
+    price: 80,
+    stackable: false,
+    wearable: true,
+    class: 'weapon',
+    type: 'fishing',
+    attribute: 'strength',
+    att_value: 6,
+    bonuses: { strength: 6, luck: 5 }
+  },
+  15: {
+    id: 15,
+    name: 'adaga',
+    quantity: 1,
+    price: 60,
+    stackable: false,
+    wearable: true,
+    class: 'weapon',
+    type: 'stab',
+    attribute: 'strength',
+    att_value: 7
   }
 };
 
-const rotatingWeaponIds = [5, 6, 11, 12, 13];
+const rotatingWeaponIds = [5, 6, 11, 12, 13, 14, 15];
 
 function createCatalogItem(itemId, overrides = {}) {
   const item = itemDatabase[itemId];

@@ -67,11 +67,11 @@ function getCurrentPage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+if (typeof SaveManager !== 'undefined') SaveManager.loadForGameplay();
 const page = getCurrentPage();
 const isHome = page === 'home';
 const isCombat = page === 'combat';
 const isInventory = page === 'inventory';
-const isShop = page === 'shop';
 const isCollection = page === 'collection';
 
 if (isHome || isInventory || isCombat) {

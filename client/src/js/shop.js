@@ -26,6 +26,7 @@ class Shop {
         STORAGE_KEY_SHOP_ROTATION,
         JSON.stringify(Shop.rotationState)
       );
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
       return true;
     } catch (error) {
       console.error('Falha ao salvar a rotação diária da loja:', error);
@@ -242,6 +243,7 @@ class Shop {
   static persist() {
     try {
       localStorage.setItem(STORAGE_KEY_SHOP, JSON.stringify(estoque));
+      if (typeof SaveManager !== 'undefined') SaveManager.syncActiveSlot();
     } catch (e) {
       console.warn('Falha ao salvar estoque da loja no localStorage', e);
     }

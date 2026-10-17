@@ -3,11 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=../../dev/lobbydev.html">
   <title>Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-  <p>Abrindo a demo... <a href="../../dev/lobbydev.html">Ir para a vila</a></p>
-  <script>window.location.replace('../../dev/lobbydev.html');</script>
+<body data-page="title" class="title-page">
+  <main class="title-screen">
+    <section class="title-panel" aria-labelledby="title-heading">
+      <h1 id="title-heading" class="title-logo">Mochileiro</h1>
+      <p class="title-subtitle">Prepare sua mochila. A estrada espera.</p>
+      <nav class="title-menu" aria-label="Menu principal">
+        <button id="new-game-btn" type="button">Começar novo jogo</button>
+        <button id="continue-game-btn" type="button">Continuar jogo</button>
+        <button id="view-saves-btn" type="button">Saves</button>
+        <button id="delete-game-btn" class="title-delete-button" type="button">
+          Deletar jogo atual
+        </button>
+      </nav>
+    </section>
+  </main>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/titleScreen.js"></script>
 </body>
 </html>

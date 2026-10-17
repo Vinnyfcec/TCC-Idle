@@ -8,7 +8,7 @@
 </head>
 <body data-page="lobby" class="scene-page village-page">
   <header class="scene-hud">
-    <span class="scene-logo">Mochileiro</span>
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
     <div class="world-hud">
       <span>Dia <strong id="day-number">1</strong></span>
       <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
@@ -17,6 +17,16 @@
     </div>
     <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
   </header>
+
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
 
   <main class="village-world">
     <div class="scene-sky village-forest-sky" aria-hidden="true"></div>
@@ -67,6 +77,27 @@
       <button id="rescue-merchant-btn" type="button" hidden>Resgatar o mercador</button>
     </section>
 
+    <section id="village-intro-dialog" class="village-intro-dialog" role="dialog" aria-labelledby="village-intro-name" aria-describedby="village-intro-text" hidden>
+      <p id="village-intro-name" class="village-intro-name">Jorge</p>
+      <p id="village-intro-text" class="village-intro-text">Não acredito que deixei isso acontecer ... todo mundo foi levado! aqueles comerciantes nojentos de escravos... pessoal, vou resgatar vocês!</p>
+      <button id="village-intro-continue" class="village-intro-continue" type="button">Continuar</button>
+    </section>
+
+    <section id="village-ending-dialog" class="village-intro-dialog" role="dialog" aria-labelledby="village-ending-name" aria-describedby="village-ending-text" hidden>
+      <p id="village-ending-name" class="village-intro-name">Jorge</p>
+      <p id="village-ending-text" class="village-intro-text">Esse é só o começo, mas agora... eu não estou mais sozinho.</p>
+      <button id="finish-demo-btn" class="village-intro-continue" type="button">Finalizar demo</button>
+    </section>
+
+    <section id="demo-completion-screen" class="demo-completion-screen" role="dialog" aria-labelledby="demo-completion-title" hidden>
+      <div class="demo-completion-panel">
+        <p class="demo-completion-eyebrow">Mochileiro</p>
+        <h1 id="demo-completion-title">Você concluiu a demo!</h1>
+        <p id="demo-completion-summary"></p>
+        <button id="return-to-menu-btn" type="button">Retornar ao menu</button>
+      </div>
+    </section>
+
     <p class="save-note scene-save-note">Protótipo local · progresso salvo neste dispositivo</p>
   </main>
 
@@ -78,6 +109,7 @@
   <script src="../src/js/ui/UI.js"></script>
   <script src="../src/js/ui/UIinventory.js"></script>
   <script src="../src/js/ui/UIDemo.js"></script>
+  <script src="../src/js/saveManager.js"></script>
   <script src="../src/js/main.js"></script>
 </body>
 </html>
