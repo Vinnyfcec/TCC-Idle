@@ -3,37 +3,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vila - Mochileiro</title>
+  <title>Mochileiro — Vila</title>
   <link rel="stylesheet" href="../src/css/style.css">
 </head>
-<body data-page="lobby">
-  <main class="resource-page">
-    <h1>Vila</h1>
-    <p class="resource-balance">
-      Madeira: <span id="wood-count">0</span>
-      <span aria-hidden="true">|</span>
-      Ouro: <span id="gold-display">1000</span>
-    </p>
+<body data-page="lobby" class="scene-page village-page">
+  <header class="scene-hud">
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+      <span>Madeira <strong id="wood-count">0</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
 
-    <nav class="resource-actions" aria-label="Mecânicas da vila">
-      <button id="start-mission-btn" type="button">Iniciar missão</button>
-      <button id="inventory-btn" type="button">Inventário</button>
-      <button id="shop-btn" type="button">Loja</button>
-      <button id="collect-wood-nav-btn" type="button">Coletar madeira</button>
-      <span class="resource-action">
-        <button id="rebuild-btn" type="button" disabled aria-describedby="rebuild-requirement">
-          Reconstruir cabana e carroça
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="village-world">
+    <div class="scene-sky village-forest-sky" aria-hidden="true"></div>
+    <div class="village-forest-back" aria-hidden="true"></div>
+    <div class="village-pines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="village-forest-front" aria-hidden="true"></div>
+    <div class="village-path" aria-hidden="true"></div>
+
+    <button id="capital-gate" class="village-exit village-exit-left" type="button" aria-label="Ir para a capital">
+      <span class="village-exit-arrow" aria-hidden="true">←</span>
+      <span class="village-exit-label">Ir para a capital</span>
+    </button>
+
+    <button id="forest-gate" class="village-exit village-exit-right" type="button" aria-label="Ir para a coleta" disabled>
+      <span class="village-exit-arrow" aria-hidden="true">→</span>
+      <span class="village-exit-label">Ir para a coleta</span>
+    </button>
+
+    <div class="village-settlements" aria-label="Vilas destruídas ao longo da floresta">
+      <div class="village-ruin village-ruin-1" aria-hidden="true"><img class="ruined-village-sprite" src="../assets/backgrounds/destroços.png" alt=""></div>
+      <div class="village-ruin village-ruin-2" aria-hidden="true"><img class="ruined-village-sprite" src="../assets/backgrounds/destroços.png" alt=""></div>
+      <div class="village-ruin village-ruin-3" aria-hidden="true"><img class="ruined-village-sprite" src="../assets/backgrounds/destroços.png" alt=""></div>
+      <div class="village-ruin village-ruin-4" aria-hidden="true"><img class="ruined-village-sprite" src="../assets/backgrounds/destroços.png" alt=""></div>
+      <div class="village-ruin village-ruin-5" aria-hidden="true"><img class="ruined-village-sprite" src="../assets/backgrounds/destroços.png" alt=""></div>
+
+      <div class="merchant-landmark village-merchant-site">
+        <button id="rebuild-btn" class="scene-hotspot merchant-ruins" type="button" disabled aria-describedby="rebuild-requirement">
+          <img class="ruin-art" src="../assets/backgrounds/destroços.png" alt="" aria-hidden="true">
+          <span class="hotspot-label">Destroços do mercador</span>
+          <span id="rebuild-requirement" class="resource-tooltip" aria-live="polite">Madeira: 0/50</span>
         </button>
-        <span id="rebuild-requirement" class="resource-tooltip" aria-live="polite">Madeira: 0/50</span>
-        <span id="house-obtained" hidden>Casa obtida</span>
-      </span>
-    </nav>
+        <button id="merchant-house" class="scene-hotspot merchant-house" type="button" hidden aria-label="Casa do mercador">
+          <img class="house-art-scene" src="../assets/backgrounds/Cabana.png" alt="" aria-hidden="true">
+          <span class="hotspot-label">Casa do mercador</span>
+        </button>
+        <span id="house-obtained" hidden>Casa reconstruída</span>
+        <span id="merchant-rescued" hidden>Mercador resgatado.</span>
+      </div>
+    </div>
 
-    <button id="clear-storage-btn" type="button">Limpar dados locais</button>
+    <section id="village-interaction" class="scene-interaction" aria-live="polite" hidden>
+      <button class="scene-close" type="button" aria-label="Fechar">×</button>
+      <p id="interaction-eyebrow" class="eyebrow"></p>
+      <h1 id="interaction-title"></h1>
+      <p id="interaction-copy"></p>
+      <p id="demo-notice" class="demo-notice" role="status" hidden></p>
+      <p id="rescue-requirement" class="rescue-requirement" hidden></p>
+      <button id="rescue-merchant-btn" type="button" hidden>Resgatar o mercador</button>
+    </section>
+
+    <section id="village-intro-dialog" class="village-intro-dialog" role="dialog" aria-labelledby="village-intro-name" aria-describedby="village-intro-text" hidden>
+      <p id="village-intro-name" class="village-intro-name">Jorge</p>
+      <p id="village-intro-text" class="village-intro-text">Não acredito que deixei isso acontecer ... todo mundo foi levado! aqueles comerciantes nojentos de escravos... pessoal, vou resgatar vocês!</p>
+      <button id="village-intro-continue" class="village-intro-continue" type="button">Continuar</button>
+    </section>
+
+    <section id="village-ending-dialog" class="village-intro-dialog" role="dialog" aria-labelledby="village-ending-name" aria-describedby="village-ending-text" hidden>
+      <p id="village-ending-name" class="village-intro-name">Jorge</p>
+      <p id="village-ending-text" class="village-intro-text">Esse é só o começo, mas agora... eu não estou mais sozinho.</p>
+      <button id="finish-demo-btn" class="village-intro-continue" type="button">Finalizar demo</button>
+    </section>
+
+    <section id="demo-completion-screen" class="demo-completion-screen" role="dialog" aria-labelledby="demo-completion-title" hidden>
+      <div class="demo-completion-panel">
+        <p class="demo-completion-eyebrow">Mochileiro</p>
+        <h1 id="demo-completion-title">Você concluiu a demo!</h1>
+        <p id="demo-completion-summary"></p>
+        <button id="return-to-menu-btn" type="button">Retornar ao menu</button>
+      </div>
+    </section>
+
+    <p class="save-note scene-save-note">Protótipo local · progresso salvo neste dispositivo</p>
   </main>
 
-  <script src="../src/js/ui/UI.js"></script>
+  <script src="../src/js/data/items.js"></script>
+  <script src="../src/js/inventory.js"></script>
+  <script src="../src/js/shop.js"></script>
   <script src="../src/js/resources.js"></script>
-  <script src="../src/js/ui/UIresources.js"></script>
+  <script src="../src/js/demo.js"></script>
+  <script src="../src/js/ui/UI.js"></script>
+  <script src="../src/js/ui/UIinventory.js"></script>
+  <script src="../src/js/ui/UIDemo.js"></script>
+  <script src="../src/js/saveManager.js"></script>
+  <script src="../src/js/main.js"></script>
 </body>
 </html>

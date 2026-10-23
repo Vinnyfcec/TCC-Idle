@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Missões — Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="missions" class="scene-page capital-page">
+  <header class="scene-hud">
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="capital-world mission-select-world">
+    <button id="capital-village-btn" class="scene-arrow scene-arrow-left" type="button" aria-label="Voltar para a vila">
+      <span aria-hidden="true">←</span>
+      <span>Voltar para a vila</span>
+    </button>
+    <section id="mission-select-list" class="mission-select-list" aria-label="Missões disponíveis">
+      <a class="mission-select-card" data-mission-card="swamp-road" href="capital.html?mission=swamp-road">
+        <span class="mission-select-status">Disponível</span>
+        <span class="mission-select-title">Estrada do Pântano</span>
+        <span class="mission-select-reward">200 ouro</span>
+        <span class="mission-select-action" aria-hidden="true">→</span>
+      </a>
+      <a class="mission-select-card" data-mission-card="orc-extermination" href="capital.html?mission=orc-extermination" hidden>
+        <span class="mission-select-status">Ilimitada</span>
+        <span class="mission-select-title">Extermínio de Orcs</span>
+        <span class="mission-select-reward">450 ouro</span>
+        <span class="mission-select-action" aria-hidden="true">→</span>
+      </a>
+      <a class="mission-select-card" data-mission-card="villain-negotiation" href="capital.html?mission=villain-negotiation" hidden>
+        <span class="mission-select-status">Bloqueada</span>
+        <span class="mission-select-title">Negociação com os escravizadores</span>
+        <span class="mission-select-reward">1.500 ouro</span>
+        <span class="mission-select-action" aria-hidden="true">→</span>
+      </a>
+    </section>
+    <button id="capital-shop-btn" class="scene-arrow scene-arrow-right" type="button" aria-label="Ir para a loja">
+      <span>Loja</span>
+      <span aria-hidden="true">→</span>
+    </button>
+  </main>
+
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

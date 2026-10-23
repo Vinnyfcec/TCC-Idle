@@ -2,7 +2,9 @@ async function loadInventory() {
   try {
     await Inventory.loadFromLocalStorage(inventarioInicial);
     Inventory.getPlayerMaxHp();
-    if (typeof InventoryUI !== 'undefined') InventoryUI.render();
+    if (typeof InventoryUI !== 'undefined' && document.getElementById('inventory-grid')) {
+      InventoryUI.render();
+    }
   } catch (error) {
     console.error('Erro ao carregar inventário:', error);
   }
@@ -65,35 +67,60 @@ function getCurrentPage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+if (typeof SaveManager !== 'undefined') SaveManager.loadForGameplay();
 const page = getCurrentPage();
 const isHome = page === 'home';
 const isCombat = page === 'combat';
 const isInventory = page === 'inventory';
-const isShop = page === 'shop';
+const isCollection = page === 'collection';
 
-if (isHome || isInventory) {
+if (isHome || isInventory || isCombat) {
 InventoryUI.init();
 }
 
-if (isHome || isShop) {
+if (typeof Shop !== 'undefined' && typeof estoque !== 'undefined') {
 Shop.loadFromLocalStorage(estoque);
-ShopUI.render();
+if (typeof ShopUI !== 'undefined') ShopUI.render();
 }
 
 UI.loadGold();
 UI.updateGold();
 await loadInventory();
+if (typeof Resources !== 'undefined') Resources.load();
+document.addEventListener('newDayStarted', () => {
+  if (typeof Shop !== 'undefined') {
+    Shop.initializeDailyStock(DemoGame.state.day);
+  }
+});
+if (typeof DemoUI !== 'undefined') DemoUI.init();
+if (isCollection && typeof ResourcesUI !== 'undefined') ResourcesUI.init();
 
 
 if ((isHome || isCombat) && typeof CombatEvents !== 'undefined') {
 CombatEvents.on('restStart', data => CombatUI.showRestTimer(data.timeLeft));
-CombatEvents.on('combatStart', () => CombatUI.showCombat());
+CombatEvents.on('combatStart', enemy => CombatUI.showCombat(enemy));
 CombatEvents.on('enemyUpdate', enemy => CombatUI.updateEnemy(enemy));
 CombatEvents.on('playerHpUpdate', () => CombatUI.updatePlayerHp());
+document.addEventListener('newDayStarted', () => CombatUI.updatePlayerHp());
+CombatEvents.on('criticalHit', data => CombatUI.showCritical(data));
+CombatEvents.on('enemyApproach', enemy => CombatUI.showEnemyApproach(enemy));
 CombatEvents.on('missionComplete', () => CombatUI.showMissionComplete());
+CombatEvents.on('missionUnavailable', missionId => {
+  CombatUI.showMissionUnavailable(missionId);
+});
 CombatEvents.on('gameOver', () => CombatUI.showGameOver());
 CombatEvents.on('enemy_appear', enemy => CombatUI.updateEnemy(enemy));
 CombatEvents.on('boss_intro', enemy => CombatUI.updateEnemy(enemy));
+CombatEvents.on('travelStart', () => CombatUI.showTravel());
+CombatEvents.on('lootDrop', data => CombatUI.showLoot(data.message));
+CombatEvents.on('inventory_Open', () => {
+const inventoryPanel = document.getElementById('combat-inventory');
+if (inventoryPanel) inventoryPanel.hidden = false;
+if (typeof InventoryUI !== 'undefined') InventoryUI.render();
+});
+CombatEvents.on('inventory_close', () => {
+CombatUI.closeRestBoard();
+});
 if (isHome) {
   CombatEvents.on('inventoryUnlocked', () => InventoryUI.render());
 }
@@ -101,12 +128,5 @@ if (isHome) {
 
 if (isHome || isCombat) {
 CombatUI.init();
-}
-
-const backToVillageButton = document.getElementById('back-to-village-btn');
-if (backToVillageButton) {
-backToVillageButton.addEventListener('click', () => {
-window.location.href = '../../dev/lobbydev.html';
-});
 }
 });

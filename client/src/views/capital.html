@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capital — Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="capital" class="scene-page capital-page">
+  <header class="scene-hud">
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="negotiation-dialog" class="negotiation-dialog" role="dialog" aria-modal="true" aria-labelledby="negotiation-speaker" hidden>
+    <div class="negotiation-dialog-panel">
+      <p id="negotiation-speaker" class="negotiation-speaker"></p>
+      <p id="negotiation-text" class="negotiation-text"></p>
+      <button id="negotiation-continue" class="negotiation-continue" type="button">Continuar</button>
+    </div>
+  </section>
+
+  <main class="capital-world">
+    <button id="capital-village-btn" class="scene-arrow scene-arrow-left" type="button" aria-label="Voltar para a vila">
+      <span aria-hidden="true">←</span>
+      <span>Voltar para a vila</span>
+    </button>
+    <section class="capital-mission-board" aria-labelledby="capital-mission-title">
+      <div class="capital-board-heading">
+        <p id="capital-mission-eyebrow" class="eyebrow">Guilda dos aventureiros · missão disponível</p>
+        <h1 id="capital-mission-title">Estrada do Pântano</h1>
+      </div>
+      <div class="capital-board-content">
+        <div class="capital-mission-copy">
+          <p id="capital-mission-description"></p>
+          <p id="capital-mission-reward" class="capital-mission-reward">Recompensa <strong>200 ouro</strong></p>
+          <button id="accept-mission-btn" type="button">Aceitar missão</button>
+        </div>
+      </div>
+    </section>
+    <button id="capital-shop-btn" class="scene-arrow scene-arrow-right" type="button" aria-label="Ir para a loja">
+      <span>Loja</span>
+      <span aria-hidden="true">→</span>
+    </button>
+  </main>
+
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
+  <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

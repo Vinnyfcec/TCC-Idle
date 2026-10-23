@@ -3,23 +3,63 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Coleta de madeira - Mochileiro</title>
+  <title>Floresta — Mochileiro</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body data-page="collection">
-  <main class="resource-page">
-    <h1>Coleta de recursos</h1>
-    <p class="resource-balance">
-      Madeira armazenada: <span id="wood-count">0</span>
-      <span aria-hidden="true">|</span>
-      Ouro: <span id="gold-display">1000</span>
-    </p>
-    <button id="collect-wood-btn" type="button">Coletar madeira</button>
-    <button id="back-to-lobby-btn" type="button">Voltar para a vila</button>
+<body data-page="collection" class="scene-page forest-page">
+  <header class="scene-hud">
+    <button class="scene-logo scene-title-button" type="button" aria-label="Voltar ao título">Mochileiro</button>
+    <div class="world-hud">
+      <span>Dia <strong id="day-number">1</strong></span>
+      <span hidden>Próximo dia <strong id="day-timer">05:00</strong></span>
+      <span>Ouro <strong id="gold-display">200</strong></span>
+      <span>Madeira <strong id="wood-count">0</strong></span>
+    </div>
+    <button id="inventory-btn" class="hud-icon-button" type="button" aria-label="Abrir inventário" title="Inventário">▦</button>
+  </header>
+
+  <section id="title-return-dialog" class="title-return-dialog" role="dialog" aria-modal="true" aria-labelledby="title-return-question" hidden>
+    <div class="title-return-panel">
+      <h2 id="title-return-question">Quer voltar ao título?</h2>
+      <div class="title-return-actions">
+        <button class="title-return-yes" type="button">Sim</button>
+        <button class="title-return-no" type="button">Não</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="forest-world">
+    <button id="collect-wood-btn" class="scene-hotspot forest-tree" type="button" aria-label="Coletar madeira">
+      <img class="collect-tree-art" src="../../assets/aaa/toco.png" alt="" aria-hidden="true">
+      <span class="hotspot-label">Coletar madeira</span>
+    </button>
+    <button id="return-to-village-btn" class="forest-road-exit" type="button">
+      Retornar para a vila
+    </button>
+
+    <div class="forest-caption">
+      <p class="eyebrow">Floresta</p>
+      <p id="wood-yield">Sem machado equipado: 1 madeira por coleta.</p>
+      <p id="demo-notice" class="demo-notice" role="status" hidden></p>
+    </div>
+
+    <section id="collection-intro-dialog" class="village-intro-dialog" role="dialog" aria-labelledby="collection-intro-name" aria-describedby="collection-intro-text" hidden>
+      <p id="collection-intro-name" class="village-intro-name">Jorge</p>
+      <p id="collection-intro-text" class="village-intro-text">Caramba! Aqui é onde o Robert cortava a madeira da vila! vou poder começar a reconstrução da vila, eu tenho a impressão que vi um machado em algum lugar...</p>
+      <button id="collection-intro-continue" class="village-intro-continue" type="button">Continuar</button>
+    </section>
   </main>
 
-  <script src="../js/ui/UI.js"></script>
+  <script src="../js/data/items.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script src="../js/shop.js"></script>
   <script src="../js/resources.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="../js/ui/UI.js"></script>
+  <script src="../js/ui/UIinventory.js"></script>
   <script src="../js/ui/UIresources.js"></script>
+  <script src="../js/ui/UIDemo.js"></script>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

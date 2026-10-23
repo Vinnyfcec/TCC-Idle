@@ -2,60 +2,26 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mochileiro</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body data-page="home">
-  <header class="header">
-    <h1 class="game-title">Mochileiro</h1>
-    <div class="gold-hud">
-      <div>
-        <div class="gold-hud-label">Ouro:</div>
-        <div id="gold-display">1000</div>
-      </div>
-    </div>
-  </header>
-
-  <main class="main">
-    <section class="inventory">
-      <div class="inventory-header">
-        <span class="inventory-title">Inventário</span>
-        <span class="inventory-count" id="slot-count">0 / 20</span>
-      </div>
-      <div class="inventory-body">
-        <div id="inventory-grid"></div>
-      </div>
-    </section>
-
-   <section class="combat-section">
-    <div id="game-screen"></div>
-
-    <div id="player-box"></div>
-    <div id="enemy-box"></div>
-
-    <button id="start-mission-btn" type="button">
-        Iniciar missão
-    </button>
-</section>
-
-    <section class="shop">
-      <div class="shop-header">
-        <span class="shop-title">Loja</span>
-      </div>
-      <div class="shop-body">
-        <div id="shop-list"></div>
-      </div>
+<body data-page="title" class="title-page">
+  <main class="title-screen">
+    <section class="title-panel" aria-labelledby="title-heading">
+      <h1 id="title-heading" class="title-logo">Mochileiro</h1>
+      <p class="title-subtitle">Prepare sua mochila. A estrada espera.</p>
+      <nav class="title-menu" aria-label="Menu principal">
+        <button id="new-game-btn" type="button">Começar novo jogo</button>
+        <button id="continue-game-btn" type="button">Continuar jogo</button>
+        <button id="view-saves-btn" type="button">Saves</button>
+        <button id="delete-game-btn" class="title-delete-button" type="button">
+          Deletar jogo atual
+        </button>
+      </nav>
     </section>
   </main>
-
-  <script src="../js/data/items.js"></script>
-  <script src="../js/inventory.js"></script>
-  <script src="../js/shop.js"></script>
-  <script src="../js/combat.js"></script>
-  <script src="../js/ui/UI.js"></script>
-  <script src="../js/ui/UIinventory.js"></script>
-  <script src="../js/ui/UIcombat.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/titleScreen.js"></script>
 </body>
 </html>

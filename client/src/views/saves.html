@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saves — Mochileiro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="saves" class="title-page">
+  <main class="title-screen save-selection-screen">
+    <section class="title-panel save-selection-panel" aria-labelledby="save-selection-heading">
+      <p class="title-eyebrow">Seus jogos</p>
+      <h1 id="save-selection-heading" class="save-selection-heading">Escolha um save</h1>
+      <div id="save-slot-list" class="save-slot-list" aria-label="Slots de save"></div>
+      <p id="save-selection-status" class="save-selection-status" aria-live="polite">
+        Selecione um dos três slots.
+      </p>
+      <div class="save-selection-actions">
+        <a class="title-secondary-action" href="index.html">Voltar</a>
+        <button id="save-action-btn" type="button" disabled>Continuar jogo</button>
+      </div>
+    </section>
+  </main>
+  <script src="../js/saveManager.js"></script>
+  <script src="../js/titleScreen.js"></script>
+  <script src="../js/saveSelection.js"></script>
+</body>
+</html>
