@@ -41,8 +41,7 @@ const missionEnemySets = {
 
 const roadEnemies = [
   { name: 'Goblin da estrada', hp: 24, attack: 10, defense: 1, isBoss: false },
-  { name: 'Slime errante', hp: 22, attack: 9, defense: 1, isBoss: false },
-  { name: 'Bandido', hp: 28, attack: 11, defense: 2, isBoss: false }
+  { name: 'Slime errante', hp: 22, attack: 9, defense: 1, isBoss: false }
 ];
 
 const accessoryDropIds = [7, 8, 9];
