@@ -17,6 +17,9 @@ class TitleScreen {
     document.getElementById('view-saves-btn')?.addEventListener('click', () => {
       window.location.href = 'saves.html';
     });
+    document.getElementById('view-history-btn')?.addEventListener('click', () => {
+      window.location.href = 'history.html';
+    });
 
     const deleteButton = document.getElementById('delete-game-btn');
     if (deleteButton) {

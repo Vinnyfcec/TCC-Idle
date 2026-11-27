@@ -9,6 +9,98 @@ const combatFooter = document.getElementById('combat-footer');
 const inventoryGrid = document.getElementById('inventory-grid');
 const inventoryPanel = document.getElementById('combat-inventory');
 let showingRestStats = false;
+let enemySpriteAnimationTimer = null;
+let heroSpriteAnimationTimer = null;
+
+const enemySpriteSheets = {
+  slime: {
+    walking: '../../assets/aaa/Slime_moving.png',
+    attacking: '../../assets/aaa/slime_attack_2.png'
+  },
+  goblin: {
+    walking: '../../assets/aaa/goblin_walking.png',
+    attacking: '../../assets/aaa/goblin_attack.png'
+  },
+  orc: {
+    walking: '../../assets/aaa/Orc_Walk.png',
+    attacking: '../../assets/aaa/Orc_Attack.png'
+  },
+  escudeiro: {
+    walking: '../../assets/aaa/Escudeiro_andar.png',
+    attacking: '../../assets/aaa/Escudeiro_ataqur.png'
+  }
+};
+
+function setEnemySprite(enemy, state = 'idle') {
+  const enemySprite = document.getElementById('enemy-sprite');
+  if (!enemySprite) return;
+
+  clearTimeout(enemySpriteAnimationTimer);
+  enemySpriteAnimationTimer = null;
+
+  const name = String(enemy?.name || '').toLowerCase();
+  const species = name.includes('slime')
+    ? 'slime'
+    : name.includes('orc')
+      ? 'orc'
+      : name.includes('escudeiro')
+        ? 'escudeiro'
+      : name.includes('goblin')
+        ? 'goblin'
+        : '';
+  const image = enemySprite.querySelector('.enemy-sheet-image');
+  enemySprite.classList.remove('is-attacking');
+
+  if (!species || !image) {
+    delete enemySprite.dataset.species;
+    delete enemySprite.dataset.state;
+    if (image) image.removeAttribute('src');
+    return;
+  }
+
+  enemySprite.dataset.species = species;
+  enemySprite.dataset.state = state;
+  image.src = enemySpriteSheets[species][state === 'attacking' ? 'attacking' : 'walking'];
+  enemySprite.classList.toggle('is-attacking', state === 'attacking');
+
+  if (state === 'attacking') {
+    image.style.animation = 'none';
+    void image.offsetWidth;
+    image.style.animation = '';
+    enemySpriteAnimationTimer = setTimeout(() => {
+      if (enemySprite.dataset.species !== species) return;
+      enemySprite.classList.remove('is-attacking');
+      enemySprite.dataset.state = 'idle';
+      image.src = enemySpriteSheets[species].walking;
+    }, species === 'slime'
+      ? 850
+      : species === 'orc' || species === 'escudeiro'
+        ? 900
+        : 600);
+  }
+}
+
+function setHeroSprite(state = 'idle') {
+  const heroSprite = document.getElementById('hero-sprite');
+  const image = heroSprite?.querySelector('.hero-sheet-image');
+  if (!heroSprite || !image) return;
+
+  clearTimeout(heroSpriteAnimationTimer);
+  heroSpriteAnimationTimer = null;
+  heroSprite.dataset.state = state;
+  heroSprite.classList.toggle('is-attacking', state === 'attacking');
+
+  if (state === 'attacking') {
+    image.style.animation = 'none';
+    void image.offsetWidth;
+    image.style.animation = '';
+    heroSpriteAnimationTimer = setTimeout(() => {
+      if (heroSprite.dataset.state !== 'attacking') return;
+      heroSprite.dataset.state = 'idle';
+      heroSprite.classList.remove('is-attacking');
+    }, 720);
+  }
+}
 
 function showCombatFooter(resting = false) {
   if (!combatFooter) return;
@@ -154,6 +246,8 @@ class CombatUI {
   static updateEnemy(enemy) {
     if (!enemyBox || !enemy) return;
     enemyBox.style.display = 'block';
+    setEnemySprite(enemy, 'attacking');
+    setHeroSprite('attacking');
 
     const maxHp = Math.max(
       1,
@@ -172,6 +266,7 @@ class CombatUI {
   static showRestTimer(timeLeft) {
     showingRestStats = true;
     showCombatFooter(true);
+    setHeroSprite('idle');
     CombatUI.updatePlayerHp();
     if (combatStage) {
       combatStage.classList.remove('phase-idle', 'phase-travel', 'phase-combat');
@@ -191,6 +286,7 @@ class CombatUI {
   static showCombat(enemy) {
     hideRestStats();
     showCombatFooter();
+    setHeroSprite('idle');
     if (combatStage) {
       combatStage.classList.remove('enemy-entering', 'enemy-approaching');
       combatStage.classList.remove('phase-idle', 'phase-travel', 'phase-rest');
@@ -203,8 +299,7 @@ class CombatUI {
     if (inventoryGrid && inventoryPanel && !inventoryPanel.contains(inventoryGrid)) {
       inventoryPanel.appendChild(inventoryGrid);
     }
-    const enemySprite = document.getElementById('enemy-sprite');
-    if (enemySprite) enemySprite.dataset.name = enemy?.name || '';
+    setEnemySprite(enemy, 'idle');
     if (gameScreen) {
       gameScreen.textContent = enemy?.isRoadEncounter
         ? 'Um inimigo bloqueia a estrada!'
@@ -214,14 +309,15 @@ class CombatUI {
 
   static showEnemyApproach(enemy) {
     if (!combatStage) return;
-    const enemySprite = document.getElementById('enemy-sprite');
-    if (enemySprite) enemySprite.dataset.name = enemy?.name || '';
+    setEnemySprite(enemy, 'walking');
     combatStage.classList.add('enemy-entering');
   }
 
   static showTravel() {
     hideRestStats();
     showCombatFooter();
+    setHeroSprite('walking');
+    setEnemySprite(null);
     if (combatFooter) combatFooter.classList.add('has-single-panel');
     if (combatStage) {
       combatStage.classList.remove(
